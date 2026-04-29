@@ -1,18 +1,9 @@
 import { z } from 'zod';
 import { baseProcedure, createTRPCRouter } from '../init';
+import { documentsRouter } from '@/features/documents/server/router';
  
 export const appRouter = createTRPCRouter({
-  hello: baseProcedure
-    .input(
-      z.object({
-        text: z.string(),
-      }),
-    )
-    .query((opts) => {
-      return {
-        greeting: `hello ${opts.input.text}`,
-      };
-    }),
+  documents: documentsRouter
 });
  
 // export type definition of API
