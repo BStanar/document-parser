@@ -385,7 +385,9 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   Document: 'Document',
-  LineItem: 'LineItem'
+  ValidationIssue: 'ValidationIssue',
+  LineItem: 'LineItem',
+  FileData: 'FileData'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -401,7 +403,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "document" | "lineItem"
+    modelProps: "document" | "validationIssue" | "lineItem" | "fileData"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -479,6 +481,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ValidationIssue: {
+      payload: Prisma.$ValidationIssuePayload<ExtArgs>
+      fields: Prisma.ValidationIssueFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ValidationIssueFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ValidationIssuePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ValidationIssueFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ValidationIssuePayload>
+        }
+        findFirst: {
+          args: Prisma.ValidationIssueFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ValidationIssuePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ValidationIssueFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ValidationIssuePayload>
+        }
+        findMany: {
+          args: Prisma.ValidationIssueFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ValidationIssuePayload>[]
+        }
+        create: {
+          args: Prisma.ValidationIssueCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ValidationIssuePayload>
+        }
+        createMany: {
+          args: Prisma.ValidationIssueCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ValidationIssueCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ValidationIssuePayload>[]
+        }
+        delete: {
+          args: Prisma.ValidationIssueDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ValidationIssuePayload>
+        }
+        update: {
+          args: Prisma.ValidationIssueUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ValidationIssuePayload>
+        }
+        deleteMany: {
+          args: Prisma.ValidationIssueDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ValidationIssueUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ValidationIssueUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ValidationIssuePayload>[]
+        }
+        upsert: {
+          args: Prisma.ValidationIssueUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ValidationIssuePayload>
+        }
+        aggregate: {
+          args: Prisma.ValidationIssueAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateValidationIssue>
+        }
+        groupBy: {
+          args: Prisma.ValidationIssueGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ValidationIssueGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ValidationIssueCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ValidationIssueCountAggregateOutputType> | number
+        }
+      }
+    }
     LineItem: {
       payload: Prisma.$LineItemPayload<ExtArgs>
       fields: Prisma.LineItemFieldRefs
@@ -553,6 +629,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    FileData: {
+      payload: Prisma.$FileDataPayload<ExtArgs>
+      fields: Prisma.FileDataFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FileDataFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FileDataPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FileDataFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FileDataPayload>
+        }
+        findFirst: {
+          args: Prisma.FileDataFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FileDataPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FileDataFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FileDataPayload>
+        }
+        findMany: {
+          args: Prisma.FileDataFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FileDataPayload>[]
+        }
+        create: {
+          args: Prisma.FileDataCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FileDataPayload>
+        }
+        createMany: {
+          args: Prisma.FileDataCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FileDataCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FileDataPayload>[]
+        }
+        delete: {
+          args: Prisma.FileDataDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FileDataPayload>
+        }
+        update: {
+          args: Prisma.FileDataUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FileDataPayload>
+        }
+        deleteMany: {
+          args: Prisma.FileDataDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FileDataUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FileDataUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FileDataPayload>[]
+        }
+        upsert: {
+          args: Prisma.FileDataUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FileDataPayload>
+        }
+        aggregate: {
+          args: Prisma.FileDataAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFileData>
+        }
+        groupBy: {
+          args: Prisma.FileDataGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FileDataGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FileDataCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FileDataCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -595,6 +745,8 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 export const DocumentScalarFieldEnum = {
   id: 'id',
   filename: 'filename',
+  format: 'format',
+  status: 'status',
   type: 'type',
   supplierName: 'supplierName',
   documentNumber: 'documentNumber',
@@ -604,12 +756,25 @@ export const DocumentScalarFieldEnum = {
   subtotal: 'subtotal',
   tax: 'tax',
   total: 'total',
+  rawText: 'rawText',
+  extractedJson: 'extractedJson',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  fileData: 'fileData'
+  updatedAt: 'updatedAt'
 } as const
 
 export type DocumentScalarFieldEnum = (typeof DocumentScalarFieldEnum)[keyof typeof DocumentScalarFieldEnum]
+
+
+export const ValidationIssueScalarFieldEnum = {
+  id: 'id',
+  documentId: 'documentId',
+  lineItemId: 'lineItemId',
+  field: 'field',
+  message: 'message',
+  createdAt: 'createdAt'
+} as const
+
+export type ValidationIssueScalarFieldEnum = (typeof ValidationIssueScalarFieldEnum)[keyof typeof ValidationIssueScalarFieldEnum]
 
 
 export const LineItemScalarFieldEnum = {
@@ -624,6 +789,15 @@ export const LineItemScalarFieldEnum = {
 export type LineItemScalarFieldEnum = (typeof LineItemScalarFieldEnum)[keyof typeof LineItemScalarFieldEnum]
 
 
+export const FileDataScalarFieldEnum = {
+  id: 'id',
+  data: 'data',
+  documentId: 'documentId'
+} as const
+
+export type FileDataScalarFieldEnum = (typeof FileDataScalarFieldEnum)[keyof typeof FileDataScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -632,12 +806,29 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
 export const NullsOrder = {
@@ -665,6 +856,34 @@ export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 
  * Reference to a field of type 'String[]'
  */
 export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Format'
+ */
+export type EnumFormatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Format'>
+    
+
+
+/**
+ * Reference to a field of type 'Format[]'
+ */
+export type ListEnumFormatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Format[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Status'
+ */
+export type EnumStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Status'>
+    
+
+
+/**
+ * Reference to a field of type 'Status[]'
+ */
+export type ListEnumStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Status[]'>
     
 
 
@@ -707,6 +926,20 @@ export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
  * Reference to a field of type 'Decimal[]'
  */
 export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -834,7 +1067,9 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   document?: Prisma.DocumentOmit
+  validationIssue?: Prisma.ValidationIssueOmit
   lineItem?: Prisma.LineItemOmit
+  fileData?: Prisma.FileDataOmit
 }
 
 /* Types for Logging */

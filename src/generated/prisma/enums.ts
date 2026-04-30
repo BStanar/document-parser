@@ -9,9 +9,29 @@
 * 🟢 You can import this file directly.
 */
 
+export const Format = {
+  PDF: 'PDF',
+  IMAGE: 'IMAGE',
+  CSV: 'CSV',
+  TXT: 'TXT'
+} as const
+
+export type Format = (typeof Format)[keyof typeof Format]
+
+
 export const DocumentType = {
   INVOICE: 'INVOICE',
   PURCHASE_ORDER: 'PURCHASE_ORDER'
 } as const
 
 export type DocumentType = (typeof DocumentType)[keyof typeof DocumentType]
+
+
+export const Status = {
+  UPLOADED: 'UPLOADED',
+  NEEDS_REVIEW: 'NEEDS_REVIEW',
+  VALIDATED: 'VALIDATED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type Status = (typeof Status)[keyof typeof Status]

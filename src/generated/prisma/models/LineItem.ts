@@ -233,6 +233,7 @@ export type LineItemWhereInput = {
   price?: Prisma.DecimalNullableFilter<"LineItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total?: Prisma.DecimalNullableFilter<"LineItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   document?: Prisma.XOR<Prisma.DocumentScalarRelationFilter, Prisma.DocumentWhereInput>
+  issues?: Prisma.ValidationIssueListRelationFilter
 }
 
 export type LineItemOrderByWithRelationInput = {
@@ -243,6 +244,7 @@ export type LineItemOrderByWithRelationInput = {
   price?: Prisma.SortOrderInput | Prisma.SortOrder
   total?: Prisma.SortOrderInput | Prisma.SortOrder
   document?: Prisma.DocumentOrderByWithRelationInput
+  issues?: Prisma.ValidationIssueOrderByRelationAggregateInput
 }
 
 export type LineItemWhereUniqueInput = Prisma.AtLeast<{
@@ -256,6 +258,7 @@ export type LineItemWhereUniqueInput = Prisma.AtLeast<{
   price?: Prisma.DecimalNullableFilter<"LineItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total?: Prisma.DecimalNullableFilter<"LineItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   document?: Prisma.XOR<Prisma.DocumentScalarRelationFilter, Prisma.DocumentWhereInput>
+  issues?: Prisma.ValidationIssueListRelationFilter
 }, "id">
 
 export type LineItemOrderByWithAggregationInput = {
@@ -291,6 +294,7 @@ export type LineItemCreateInput = {
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   document: Prisma.DocumentCreateNestedOneWithoutLineItemsInput
+  issues?: Prisma.ValidationIssueCreateNestedManyWithoutLineItemInput
 }
 
 export type LineItemUncheckedCreateInput = {
@@ -300,6 +304,7 @@ export type LineItemUncheckedCreateInput = {
   quantity?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  issues?: Prisma.ValidationIssueUncheckedCreateNestedManyWithoutLineItemInput
 }
 
 export type LineItemUpdateInput = {
@@ -309,6 +314,7 @@ export type LineItemUpdateInput = {
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   document?: Prisma.DocumentUpdateOneRequiredWithoutLineItemsNestedInput
+  issues?: Prisma.ValidationIssueUpdateManyWithoutLineItemNestedInput
 }
 
 export type LineItemUncheckedUpdateInput = {
@@ -318,6 +324,7 @@ export type LineItemUncheckedUpdateInput = {
   quantity?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  issues?: Prisma.ValidationIssueUncheckedUpdateManyWithoutLineItemNestedInput
 }
 
 export type LineItemCreateManyInput = {
@@ -354,6 +361,11 @@ export type LineItemListRelationFilter = {
 
 export type LineItemOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type LineItemNullableScalarRelationFilter = {
+  is?: Prisma.LineItemWhereInput | null
+  isNot?: Prisma.LineItemWhereInput | null
 }
 
 export type LineItemCountOrderByAggregateInput = {
@@ -437,12 +449,29 @@ export type LineItemUncheckedUpdateManyWithoutDocumentNestedInput = {
   deleteMany?: Prisma.LineItemScalarWhereInput | Prisma.LineItemScalarWhereInput[]
 }
 
+export type LineItemCreateNestedOneWithoutIssuesInput = {
+  create?: Prisma.XOR<Prisma.LineItemCreateWithoutIssuesInput, Prisma.LineItemUncheckedCreateWithoutIssuesInput>
+  connectOrCreate?: Prisma.LineItemCreateOrConnectWithoutIssuesInput
+  connect?: Prisma.LineItemWhereUniqueInput
+}
+
+export type LineItemUpdateOneWithoutIssuesNestedInput = {
+  create?: Prisma.XOR<Prisma.LineItemCreateWithoutIssuesInput, Prisma.LineItemUncheckedCreateWithoutIssuesInput>
+  connectOrCreate?: Prisma.LineItemCreateOrConnectWithoutIssuesInput
+  upsert?: Prisma.LineItemUpsertWithoutIssuesInput
+  disconnect?: Prisma.LineItemWhereInput | boolean
+  delete?: Prisma.LineItemWhereInput | boolean
+  connect?: Prisma.LineItemWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.LineItemUpdateToOneWithWhereWithoutIssuesInput, Prisma.LineItemUpdateWithoutIssuesInput>, Prisma.LineItemUncheckedUpdateWithoutIssuesInput>
+}
+
 export type LineItemCreateWithoutDocumentInput = {
   id?: string
   description?: string | null
   quantity?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  issues?: Prisma.ValidationIssueCreateNestedManyWithoutLineItemInput
 }
 
 export type LineItemUncheckedCreateWithoutDocumentInput = {
@@ -451,6 +480,7 @@ export type LineItemUncheckedCreateWithoutDocumentInput = {
   quantity?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  issues?: Prisma.ValidationIssueUncheckedCreateNestedManyWithoutLineItemInput
 }
 
 export type LineItemCreateOrConnectWithoutDocumentInput = {
@@ -491,6 +521,58 @@ export type LineItemScalarWhereInput = {
   total?: Prisma.DecimalNullableFilter<"LineItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
 }
 
+export type LineItemCreateWithoutIssuesInput = {
+  id?: string
+  description?: string | null
+  quantity?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  document: Prisma.DocumentCreateNestedOneWithoutLineItemsInput
+}
+
+export type LineItemUncheckedCreateWithoutIssuesInput = {
+  id?: string
+  documentId: string
+  description?: string | null
+  quantity?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+}
+
+export type LineItemCreateOrConnectWithoutIssuesInput = {
+  where: Prisma.LineItemWhereUniqueInput
+  create: Prisma.XOR<Prisma.LineItemCreateWithoutIssuesInput, Prisma.LineItemUncheckedCreateWithoutIssuesInput>
+}
+
+export type LineItemUpsertWithoutIssuesInput = {
+  update: Prisma.XOR<Prisma.LineItemUpdateWithoutIssuesInput, Prisma.LineItemUncheckedUpdateWithoutIssuesInput>
+  create: Prisma.XOR<Prisma.LineItemCreateWithoutIssuesInput, Prisma.LineItemUncheckedCreateWithoutIssuesInput>
+  where?: Prisma.LineItemWhereInput
+}
+
+export type LineItemUpdateToOneWithWhereWithoutIssuesInput = {
+  where?: Prisma.LineItemWhereInput
+  data: Prisma.XOR<Prisma.LineItemUpdateWithoutIssuesInput, Prisma.LineItemUncheckedUpdateWithoutIssuesInput>
+}
+
+export type LineItemUpdateWithoutIssuesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  quantity?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  document?: Prisma.DocumentUpdateOneRequiredWithoutLineItemsNestedInput
+}
+
+export type LineItemUncheckedUpdateWithoutIssuesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  documentId?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  quantity?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+}
+
 export type LineItemCreateManyDocumentInput = {
   id?: string
   description?: string | null
@@ -505,6 +587,7 @@ export type LineItemUpdateWithoutDocumentInput = {
   quantity?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  issues?: Prisma.ValidationIssueUpdateManyWithoutLineItemNestedInput
 }
 
 export type LineItemUncheckedUpdateWithoutDocumentInput = {
@@ -513,6 +596,7 @@ export type LineItemUncheckedUpdateWithoutDocumentInput = {
   quantity?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  issues?: Prisma.ValidationIssueUncheckedUpdateManyWithoutLineItemNestedInput
 }
 
 export type LineItemUncheckedUpdateManyWithoutDocumentInput = {
@@ -524,6 +608,35 @@ export type LineItemUncheckedUpdateManyWithoutDocumentInput = {
 }
 
 
+/**
+ * Count Type LineItemCountOutputType
+ */
+
+export type LineItemCountOutputType = {
+  issues: number
+}
+
+export type LineItemCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  issues?: boolean | LineItemCountOutputTypeCountIssuesArgs
+}
+
+/**
+ * LineItemCountOutputType without action
+ */
+export type LineItemCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LineItemCountOutputType
+   */
+  select?: Prisma.LineItemCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * LineItemCountOutputType without action
+ */
+export type LineItemCountOutputTypeCountIssuesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ValidationIssueWhereInput
+}
+
 
 export type LineItemSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -533,6 +646,8 @@ export type LineItemSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   price?: boolean
   total?: boolean
   document?: boolean | Prisma.DocumentDefaultArgs<ExtArgs>
+  issues?: boolean | Prisma.LineItem$issuesArgs<ExtArgs>
+  _count?: boolean | Prisma.LineItemCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["lineItem"]>
 
 export type LineItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -567,6 +682,8 @@ export type LineItemSelectScalar = {
 export type LineItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "documentId" | "description" | "quantity" | "price" | "total", ExtArgs["result"]["lineItem"]>
 export type LineItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   document?: boolean | Prisma.DocumentDefaultArgs<ExtArgs>
+  issues?: boolean | Prisma.LineItem$issuesArgs<ExtArgs>
+  _count?: boolean | Prisma.LineItemCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type LineItemIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   document?: boolean | Prisma.DocumentDefaultArgs<ExtArgs>
@@ -579,6 +696,7 @@ export type $LineItemPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   name: "LineItem"
   objects: {
     document: Prisma.$DocumentPayload<ExtArgs>
+    issues: Prisma.$ValidationIssuePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -982,6 +1100,7 @@ readonly fields: LineItemFieldRefs;
 export interface Prisma__LineItemClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   document<T extends Prisma.DocumentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DocumentDefaultArgs<ExtArgs>>): Prisma.Prisma__DocumentClient<runtime.Types.Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  issues<T extends Prisma.LineItem$issuesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.LineItem$issuesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ValidationIssuePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1415,6 +1534,30 @@ export type LineItemDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Limit how many LineItems to delete.
    */
   limit?: number
+}
+
+/**
+ * LineItem.issues
+ */
+export type LineItem$issuesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ValidationIssue
+   */
+  select?: Prisma.ValidationIssueSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ValidationIssue
+   */
+  omit?: Prisma.ValidationIssueOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ValidationIssueInclude<ExtArgs> | null
+  where?: Prisma.ValidationIssueWhereInput
+  orderBy?: Prisma.ValidationIssueOrderByWithRelationInput | Prisma.ValidationIssueOrderByWithRelationInput[]
+  cursor?: Prisma.ValidationIssueWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ValidationIssueScalarFieldEnum | Prisma.ValidationIssueScalarFieldEnum[]
 }
 
 /**

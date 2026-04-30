@@ -8,38 +8,72 @@ datasource db {
 }
 
 model Document {
-  id              String    @id @default(cuid())
-  filename        String
-  type            DocumentType?
-  supplierName    String?
-  documentNumber  String?
-  issueDate       DateTime?
-  dueDate         DateTime?
-  currency        String?
-  subtotal        Decimal?
-  tax             Decimal?
-  total           Decimal?
-  lineItems       LineItem[]
-  createdAt       DateTime   @default(now())
-  updatedAt       DateTime   @updatedAt
-
-  fileData        String?
+  id             String            @id @default(cuid())
+  filename       String
+  format         Format
+  status         Status            @default(UPLOADED)
+  type           DocumentType?
+  supplierName   String?
+  documentNumber String?
+  issueDate      DateTime?
+  dueDate        DateTime?
+  currency       String?
+  subtotal       Decimal?
+  tax            Decimal?
+  total          Decimal?
+  rawText        String?
+  extractedJson  Json?
+  fileData       FileData?
+  lineItems      LineItem[]
+  issues         ValidationIssue[]
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
 }
 
+model ValidationIssue {
+  id         String    @id @default(cuid())
+  documentId String
+  document   Document  @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  lineItemId String?
+  lineItem   LineItem? @relation(fields: [lineItemId], references: [id], onDelete: Cascade)
+  field      String?
+  message    String
+  createdAt  DateTime  @default(now())
+}
 
 model LineItem {
-  id          String   @id @default(cuid())
+  id          String            @id @default(cuid())
   documentId  String
-  document    Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  document    Document          @relation(fields: [documentId], references: [id], onDelete: Cascade)
   description String?
   quantity    Decimal?
   price       Decimal?
   total       Decimal?
+  issues      ValidationIssue[]
 }
 
+model FileData {
+  id         String   @id @default(cuid())
+  data       String
+  documentId String   @unique
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+}
+
+enum Format {
+  PDF
+  IMAGE
+  CSV
+  TXT
+}
 
 enum DocumentType {
   INVOICE
   PURCHASE_ORDER
 }
 
+enum Status {
+  UPLOADED
+  NEEDS_REVIEW
+  VALIDATED
+  REJECTED
+}
