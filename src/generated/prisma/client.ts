@@ -47,7 +47,17 @@ export { Prisma }
  */
 export type Document = Prisma.DocumentModel
 /**
+ * Model ValidationIssue
+ * 
+ */
+export type ValidationIssue = Prisma.ValidationIssueModel
+/**
  * Model LineItem
  * 
  */
 export type LineItem = Prisma.LineItemModel
+/**
+ * Model FileData
+ * 
+ */
+export type FileData = Prisma.FileDataModel

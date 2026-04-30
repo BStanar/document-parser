@@ -5,16 +5,16 @@ import { z } from 'zod'
 
 export const documentsRouter = createTRPCRouter({
   getMany: baseProcedure
-    .input(z.object({ search: z.string().default('') }))
-    .query(async ({ input }) => {
-      return prisma.document.findMany({
-        where: input.search ? {
-          filename: { contains: input.search, mode: 'insensitive' }
-        } : undefined,
-        include: { lineItems: true, issues: true },
-        orderBy: { createdAt: 'desc' },
-      })
-    }),
+  .input(z.object({ search: z.string().default('') }))
+  .query(async ({ input }) => {
+    return prisma.document.findMany({
+      where: input.search ? {
+        filename: { contains: input.search, mode: 'insensitive' }
+      } : undefined,
+      include: { lineItems: true, issues: true },
+      orderBy: { createdAt: 'desc' },
+    })
+  }),
 
   getOne: baseProcedure
     .input(z.object({ id: z.string() }))

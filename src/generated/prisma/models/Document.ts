@@ -41,6 +41,8 @@ export type DocumentSumAggregateOutputType = {
 export type DocumentMinAggregateOutputType = {
   id: string | null
   filename: string | null
+  format: $Enums.Format | null
+  status: $Enums.Status | null
   type: $Enums.DocumentType | null
   supplierName: string | null
   documentNumber: string | null
@@ -50,14 +52,16 @@ export type DocumentMinAggregateOutputType = {
   subtotal: runtime.Decimal | null
   tax: runtime.Decimal | null
   total: runtime.Decimal | null
+  rawText: string | null
   createdAt: Date | null
   updatedAt: Date | null
-  fileData: string | null
 }
 
 export type DocumentMaxAggregateOutputType = {
   id: string | null
   filename: string | null
+  format: $Enums.Format | null
+  status: $Enums.Status | null
   type: $Enums.DocumentType | null
   supplierName: string | null
   documentNumber: string | null
@@ -67,14 +71,16 @@ export type DocumentMaxAggregateOutputType = {
   subtotal: runtime.Decimal | null
   tax: runtime.Decimal | null
   total: runtime.Decimal | null
+  rawText: string | null
   createdAt: Date | null
   updatedAt: Date | null
-  fileData: string | null
 }
 
 export type DocumentCountAggregateOutputType = {
   id: number
   filename: number
+  format: number
+  status: number
   type: number
   supplierName: number
   documentNumber: number
@@ -84,9 +90,10 @@ export type DocumentCountAggregateOutputType = {
   subtotal: number
   tax: number
   total: number
+  rawText: number
+  extractedJson: number
   createdAt: number
   updatedAt: number
-  fileData: number
   _all: number
 }
 
@@ -106,6 +113,8 @@ export type DocumentSumAggregateInputType = {
 export type DocumentMinAggregateInputType = {
   id?: true
   filename?: true
+  format?: true
+  status?: true
   type?: true
   supplierName?: true
   documentNumber?: true
@@ -115,14 +124,16 @@ export type DocumentMinAggregateInputType = {
   subtotal?: true
   tax?: true
   total?: true
+  rawText?: true
   createdAt?: true
   updatedAt?: true
-  fileData?: true
 }
 
 export type DocumentMaxAggregateInputType = {
   id?: true
   filename?: true
+  format?: true
+  status?: true
   type?: true
   supplierName?: true
   documentNumber?: true
@@ -132,14 +143,16 @@ export type DocumentMaxAggregateInputType = {
   subtotal?: true
   tax?: true
   total?: true
+  rawText?: true
   createdAt?: true
   updatedAt?: true
-  fileData?: true
 }
 
 export type DocumentCountAggregateInputType = {
   id?: true
   filename?: true
+  format?: true
+  status?: true
   type?: true
   supplierName?: true
   documentNumber?: true
@@ -149,9 +162,10 @@ export type DocumentCountAggregateInputType = {
   subtotal?: true
   tax?: true
   total?: true
+  rawText?: true
+  extractedJson?: true
   createdAt?: true
   updatedAt?: true
-  fileData?: true
   _all?: true
 }
 
@@ -244,6 +258,8 @@ export type DocumentGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 export type DocumentGroupByOutputType = {
   id: string
   filename: string
+  format: $Enums.Format
+  status: $Enums.Status
   type: $Enums.DocumentType | null
   supplierName: string | null
   documentNumber: string | null
@@ -253,9 +269,10 @@ export type DocumentGroupByOutputType = {
   subtotal: runtime.Decimal | null
   tax: runtime.Decimal | null
   total: runtime.Decimal | null
+  rawText: string | null
+  extractedJson: runtime.JsonValue | null
   createdAt: Date
   updatedAt: Date
-  fileData: string | null
   _count: DocumentCountAggregateOutputType | null
   _avg: DocumentAvgAggregateOutputType | null
   _sum: DocumentSumAggregateOutputType | null
@@ -284,6 +301,8 @@ export type DocumentWhereInput = {
   NOT?: Prisma.DocumentWhereInput | Prisma.DocumentWhereInput[]
   id?: Prisma.StringFilter<"Document"> | string
   filename?: Prisma.StringFilter<"Document"> | string
+  format?: Prisma.EnumFormatFilter<"Document"> | $Enums.Format
+  status?: Prisma.EnumStatusFilter<"Document"> | $Enums.Status
   type?: Prisma.EnumDocumentTypeNullableFilter<"Document"> | $Enums.DocumentType | null
   supplierName?: Prisma.StringNullableFilter<"Document"> | string | null
   documentNumber?: Prisma.StringNullableFilter<"Document"> | string | null
@@ -293,15 +312,20 @@ export type DocumentWhereInput = {
   subtotal?: Prisma.DecimalNullableFilter<"Document"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax?: Prisma.DecimalNullableFilter<"Document"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total?: Prisma.DecimalNullableFilter<"Document"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rawText?: Prisma.StringNullableFilter<"Document"> | string | null
+  extractedJson?: Prisma.JsonNullableFilter<"Document">
   createdAt?: Prisma.DateTimeFilter<"Document"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Document"> | Date | string
-  fileData?: Prisma.StringNullableFilter<"Document"> | string | null
+  fileData?: Prisma.XOR<Prisma.FileDataNullableScalarRelationFilter, Prisma.FileDataWhereInput> | null
   lineItems?: Prisma.LineItemListRelationFilter
+  issues?: Prisma.ValidationIssueListRelationFilter
 }
 
 export type DocumentOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   filename?: Prisma.SortOrder
+  format?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   type?: Prisma.SortOrderInput | Prisma.SortOrder
   supplierName?: Prisma.SortOrderInput | Prisma.SortOrder
   documentNumber?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -311,10 +335,13 @@ export type DocumentOrderByWithRelationInput = {
   subtotal?: Prisma.SortOrderInput | Prisma.SortOrder
   tax?: Prisma.SortOrderInput | Prisma.SortOrder
   total?: Prisma.SortOrderInput | Prisma.SortOrder
+  rawText?: Prisma.SortOrderInput | Prisma.SortOrder
+  extractedJson?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  fileData?: Prisma.SortOrderInput | Prisma.SortOrder
+  fileData?: Prisma.FileDataOrderByWithRelationInput
   lineItems?: Prisma.LineItemOrderByRelationAggregateInput
+  issues?: Prisma.ValidationIssueOrderByRelationAggregateInput
 }
 
 export type DocumentWhereUniqueInput = Prisma.AtLeast<{
@@ -323,6 +350,8 @@ export type DocumentWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.DocumentWhereInput[]
   NOT?: Prisma.DocumentWhereInput | Prisma.DocumentWhereInput[]
   filename?: Prisma.StringFilter<"Document"> | string
+  format?: Prisma.EnumFormatFilter<"Document"> | $Enums.Format
+  status?: Prisma.EnumStatusFilter<"Document"> | $Enums.Status
   type?: Prisma.EnumDocumentTypeNullableFilter<"Document"> | $Enums.DocumentType | null
   supplierName?: Prisma.StringNullableFilter<"Document"> | string | null
   documentNumber?: Prisma.StringNullableFilter<"Document"> | string | null
@@ -332,15 +361,20 @@ export type DocumentWhereUniqueInput = Prisma.AtLeast<{
   subtotal?: Prisma.DecimalNullableFilter<"Document"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax?: Prisma.DecimalNullableFilter<"Document"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total?: Prisma.DecimalNullableFilter<"Document"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rawText?: Prisma.StringNullableFilter<"Document"> | string | null
+  extractedJson?: Prisma.JsonNullableFilter<"Document">
   createdAt?: Prisma.DateTimeFilter<"Document"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Document"> | Date | string
-  fileData?: Prisma.StringNullableFilter<"Document"> | string | null
+  fileData?: Prisma.XOR<Prisma.FileDataNullableScalarRelationFilter, Prisma.FileDataWhereInput> | null
   lineItems?: Prisma.LineItemListRelationFilter
+  issues?: Prisma.ValidationIssueListRelationFilter
 }, "id">
 
 export type DocumentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   filename?: Prisma.SortOrder
+  format?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   type?: Prisma.SortOrderInput | Prisma.SortOrder
   supplierName?: Prisma.SortOrderInput | Prisma.SortOrder
   documentNumber?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -350,9 +384,10 @@ export type DocumentOrderByWithAggregationInput = {
   subtotal?: Prisma.SortOrderInput | Prisma.SortOrder
   tax?: Prisma.SortOrderInput | Prisma.SortOrder
   total?: Prisma.SortOrderInput | Prisma.SortOrder
+  rawText?: Prisma.SortOrderInput | Prisma.SortOrder
+  extractedJson?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  fileData?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.DocumentCountOrderByAggregateInput
   _avg?: Prisma.DocumentAvgOrderByAggregateInput
   _max?: Prisma.DocumentMaxOrderByAggregateInput
@@ -366,6 +401,8 @@ export type DocumentScalarWhereWithAggregatesInput = {
   NOT?: Prisma.DocumentScalarWhereWithAggregatesInput | Prisma.DocumentScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Document"> | string
   filename?: Prisma.StringWithAggregatesFilter<"Document"> | string
+  format?: Prisma.EnumFormatWithAggregatesFilter<"Document"> | $Enums.Format
+  status?: Prisma.EnumStatusWithAggregatesFilter<"Document"> | $Enums.Status
   type?: Prisma.EnumDocumentTypeNullableWithAggregatesFilter<"Document"> | $Enums.DocumentType | null
   supplierName?: Prisma.StringNullableWithAggregatesFilter<"Document"> | string | null
   documentNumber?: Prisma.StringNullableWithAggregatesFilter<"Document"> | string | null
@@ -375,14 +412,17 @@ export type DocumentScalarWhereWithAggregatesInput = {
   subtotal?: Prisma.DecimalNullableWithAggregatesFilter<"Document"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax?: Prisma.DecimalNullableWithAggregatesFilter<"Document"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total?: Prisma.DecimalNullableWithAggregatesFilter<"Document"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rawText?: Prisma.StringNullableWithAggregatesFilter<"Document"> | string | null
+  extractedJson?: Prisma.JsonNullableWithAggregatesFilter<"Document">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Document"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Document"> | Date | string
-  fileData?: Prisma.StringNullableWithAggregatesFilter<"Document"> | string | null
 }
 
 export type DocumentCreateInput = {
   id?: string
   filename: string
+  format: $Enums.Format
+  status?: $Enums.Status
   type?: $Enums.DocumentType | null
   supplierName?: string | null
   documentNumber?: string | null
@@ -392,15 +432,20 @@ export type DocumentCreateInput = {
   subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rawText?: string | null
+  extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  fileData?: string | null
+  fileData?: Prisma.FileDataCreateNestedOneWithoutDocumentInput
   lineItems?: Prisma.LineItemCreateNestedManyWithoutDocumentInput
+  issues?: Prisma.ValidationIssueCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentUncheckedCreateInput = {
   id?: string
   filename: string
+  format: $Enums.Format
+  status?: $Enums.Status
   type?: $Enums.DocumentType | null
   supplierName?: string | null
   documentNumber?: string | null
@@ -410,15 +455,20 @@ export type DocumentUncheckedCreateInput = {
   subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rawText?: string | null
+  extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  fileData?: string | null
+  fileData?: Prisma.FileDataUncheckedCreateNestedOneWithoutDocumentInput
   lineItems?: Prisma.LineItemUncheckedCreateNestedManyWithoutDocumentInput
+  issues?: Prisma.ValidationIssueUncheckedCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   filename?: Prisma.StringFieldUpdateOperationsInput | string
+  format?: Prisma.EnumFormatFieldUpdateOperationsInput | $Enums.Format
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   type?: Prisma.NullableEnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType | null
   supplierName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -428,15 +478,20 @@ export type DocumentUpdateInput = {
   subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rawText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fileData?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileData?: Prisma.FileDataUpdateOneWithoutDocumentNestedInput
   lineItems?: Prisma.LineItemUpdateManyWithoutDocumentNestedInput
+  issues?: Prisma.ValidationIssueUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   filename?: Prisma.StringFieldUpdateOperationsInput | string
+  format?: Prisma.EnumFormatFieldUpdateOperationsInput | $Enums.Format
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   type?: Prisma.NullableEnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType | null
   supplierName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -446,15 +501,20 @@ export type DocumentUncheckedUpdateInput = {
   subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rawText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fileData?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileData?: Prisma.FileDataUncheckedUpdateOneWithoutDocumentNestedInput
   lineItems?: Prisma.LineItemUncheckedUpdateManyWithoutDocumentNestedInput
+  issues?: Prisma.ValidationIssueUncheckedUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentCreateManyInput = {
   id?: string
   filename: string
+  format: $Enums.Format
+  status?: $Enums.Status
   type?: $Enums.DocumentType | null
   supplierName?: string | null
   documentNumber?: string | null
@@ -464,14 +524,17 @@ export type DocumentCreateManyInput = {
   subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rawText?: string | null
+  extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  fileData?: string | null
 }
 
 export type DocumentUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   filename?: Prisma.StringFieldUpdateOperationsInput | string
+  format?: Prisma.EnumFormatFieldUpdateOperationsInput | $Enums.Format
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   type?: Prisma.NullableEnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType | null
   supplierName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -481,14 +544,17 @@ export type DocumentUpdateManyMutationInput = {
   subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rawText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fileData?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type DocumentUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   filename?: Prisma.StringFieldUpdateOperationsInput | string
+  format?: Prisma.EnumFormatFieldUpdateOperationsInput | $Enums.Format
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   type?: Prisma.NullableEnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType | null
   supplierName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -498,14 +564,17 @@ export type DocumentUncheckedUpdateManyInput = {
   subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rawText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fileData?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type DocumentCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   filename?: Prisma.SortOrder
+  format?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   type?: Prisma.SortOrder
   supplierName?: Prisma.SortOrder
   documentNumber?: Prisma.SortOrder
@@ -515,9 +584,10 @@ export type DocumentCountOrderByAggregateInput = {
   subtotal?: Prisma.SortOrder
   tax?: Prisma.SortOrder
   total?: Prisma.SortOrder
+  rawText?: Prisma.SortOrder
+  extractedJson?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  fileData?: Prisma.SortOrder
 }
 
 export type DocumentAvgOrderByAggregateInput = {
@@ -529,6 +599,8 @@ export type DocumentAvgOrderByAggregateInput = {
 export type DocumentMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   filename?: Prisma.SortOrder
+  format?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   type?: Prisma.SortOrder
   supplierName?: Prisma.SortOrder
   documentNumber?: Prisma.SortOrder
@@ -538,14 +610,16 @@ export type DocumentMaxOrderByAggregateInput = {
   subtotal?: Prisma.SortOrder
   tax?: Prisma.SortOrder
   total?: Prisma.SortOrder
+  rawText?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  fileData?: Prisma.SortOrder
 }
 
 export type DocumentMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   filename?: Prisma.SortOrder
+  format?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   type?: Prisma.SortOrder
   supplierName?: Prisma.SortOrder
   documentNumber?: Prisma.SortOrder
@@ -555,9 +629,9 @@ export type DocumentMinOrderByAggregateInput = {
   subtotal?: Prisma.SortOrder
   tax?: Prisma.SortOrder
   total?: Prisma.SortOrder
+  rawText?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  fileData?: Prisma.SortOrder
 }
 
 export type DocumentSumOrderByAggregateInput = {
@@ -573,6 +647,14 @@ export type DocumentScalarRelationFilter = {
 
 export type StringFieldUpdateOperationsInput = {
   set?: string
+}
+
+export type EnumFormatFieldUpdateOperationsInput = {
+  set?: $Enums.Format
+}
+
+export type EnumStatusFieldUpdateOperationsInput = {
+  set?: $Enums.Status
 }
 
 export type NullableEnumDocumentTypeFieldUpdateOperationsInput = {
@@ -599,6 +681,20 @@ export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
+export type DocumentCreateNestedOneWithoutIssuesInput = {
+  create?: Prisma.XOR<Prisma.DocumentCreateWithoutIssuesInput, Prisma.DocumentUncheckedCreateWithoutIssuesInput>
+  connectOrCreate?: Prisma.DocumentCreateOrConnectWithoutIssuesInput
+  connect?: Prisma.DocumentWhereUniqueInput
+}
+
+export type DocumentUpdateOneRequiredWithoutIssuesNestedInput = {
+  create?: Prisma.XOR<Prisma.DocumentCreateWithoutIssuesInput, Prisma.DocumentUncheckedCreateWithoutIssuesInput>
+  connectOrCreate?: Prisma.DocumentCreateOrConnectWithoutIssuesInput
+  upsert?: Prisma.DocumentUpsertWithoutIssuesInput
+  connect?: Prisma.DocumentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DocumentUpdateToOneWithWhereWithoutIssuesInput, Prisma.DocumentUpdateWithoutIssuesInput>, Prisma.DocumentUncheckedUpdateWithoutIssuesInput>
+}
+
 export type DocumentCreateNestedOneWithoutLineItemsInput = {
   create?: Prisma.XOR<Prisma.DocumentCreateWithoutLineItemsInput, Prisma.DocumentUncheckedCreateWithoutLineItemsInput>
   connectOrCreate?: Prisma.DocumentCreateOrConnectWithoutLineItemsInput
@@ -613,9 +709,25 @@ export type DocumentUpdateOneRequiredWithoutLineItemsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.DocumentUpdateToOneWithWhereWithoutLineItemsInput, Prisma.DocumentUpdateWithoutLineItemsInput>, Prisma.DocumentUncheckedUpdateWithoutLineItemsInput>
 }
 
-export type DocumentCreateWithoutLineItemsInput = {
+export type DocumentCreateNestedOneWithoutFileDataInput = {
+  create?: Prisma.XOR<Prisma.DocumentCreateWithoutFileDataInput, Prisma.DocumentUncheckedCreateWithoutFileDataInput>
+  connectOrCreate?: Prisma.DocumentCreateOrConnectWithoutFileDataInput
+  connect?: Prisma.DocumentWhereUniqueInput
+}
+
+export type DocumentUpdateOneRequiredWithoutFileDataNestedInput = {
+  create?: Prisma.XOR<Prisma.DocumentCreateWithoutFileDataInput, Prisma.DocumentUncheckedCreateWithoutFileDataInput>
+  connectOrCreate?: Prisma.DocumentCreateOrConnectWithoutFileDataInput
+  upsert?: Prisma.DocumentUpsertWithoutFileDataInput
+  connect?: Prisma.DocumentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DocumentUpdateToOneWithWhereWithoutFileDataInput, Prisma.DocumentUpdateWithoutFileDataInput>, Prisma.DocumentUncheckedUpdateWithoutFileDataInput>
+}
+
+export type DocumentCreateWithoutIssuesInput = {
   id?: string
   filename: string
+  format: $Enums.Format
+  status?: $Enums.Status
   type?: $Enums.DocumentType | null
   supplierName?: string | null
   documentNumber?: string | null
@@ -625,14 +737,123 @@ export type DocumentCreateWithoutLineItemsInput = {
   subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rawText?: string | null
+  extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  fileData?: string | null
+  fileData?: Prisma.FileDataCreateNestedOneWithoutDocumentInput
+  lineItems?: Prisma.LineItemCreateNestedManyWithoutDocumentInput
+}
+
+export type DocumentUncheckedCreateWithoutIssuesInput = {
+  id?: string
+  filename: string
+  format: $Enums.Format
+  status?: $Enums.Status
+  type?: $Enums.DocumentType | null
+  supplierName?: string | null
+  documentNumber?: string | null
+  issueDate?: Date | string | null
+  dueDate?: Date | string | null
+  currency?: string | null
+  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rawText?: string | null
+  extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  fileData?: Prisma.FileDataUncheckedCreateNestedOneWithoutDocumentInput
+  lineItems?: Prisma.LineItemUncheckedCreateNestedManyWithoutDocumentInput
+}
+
+export type DocumentCreateOrConnectWithoutIssuesInput = {
+  where: Prisma.DocumentWhereUniqueInput
+  create: Prisma.XOR<Prisma.DocumentCreateWithoutIssuesInput, Prisma.DocumentUncheckedCreateWithoutIssuesInput>
+}
+
+export type DocumentUpsertWithoutIssuesInput = {
+  update: Prisma.XOR<Prisma.DocumentUpdateWithoutIssuesInput, Prisma.DocumentUncheckedUpdateWithoutIssuesInput>
+  create: Prisma.XOR<Prisma.DocumentCreateWithoutIssuesInput, Prisma.DocumentUncheckedCreateWithoutIssuesInput>
+  where?: Prisma.DocumentWhereInput
+}
+
+export type DocumentUpdateToOneWithWhereWithoutIssuesInput = {
+  where?: Prisma.DocumentWhereInput
+  data: Prisma.XOR<Prisma.DocumentUpdateWithoutIssuesInput, Prisma.DocumentUncheckedUpdateWithoutIssuesInput>
+}
+
+export type DocumentUpdateWithoutIssuesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  filename?: Prisma.StringFieldUpdateOperationsInput | string
+  format?: Prisma.EnumFormatFieldUpdateOperationsInput | $Enums.Format
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  type?: Prisma.NullableEnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType | null
+  supplierName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  issueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rawText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fileData?: Prisma.FileDataUpdateOneWithoutDocumentNestedInput
+  lineItems?: Prisma.LineItemUpdateManyWithoutDocumentNestedInput
+}
+
+export type DocumentUncheckedUpdateWithoutIssuesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  filename?: Prisma.StringFieldUpdateOperationsInput | string
+  format?: Prisma.EnumFormatFieldUpdateOperationsInput | $Enums.Format
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  type?: Prisma.NullableEnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType | null
+  supplierName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  issueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rawText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fileData?: Prisma.FileDataUncheckedUpdateOneWithoutDocumentNestedInput
+  lineItems?: Prisma.LineItemUncheckedUpdateManyWithoutDocumentNestedInput
+}
+
+export type DocumentCreateWithoutLineItemsInput = {
+  id?: string
+  filename: string
+  format: $Enums.Format
+  status?: $Enums.Status
+  type?: $Enums.DocumentType | null
+  supplierName?: string | null
+  documentNumber?: string | null
+  issueDate?: Date | string | null
+  dueDate?: Date | string | null
+  currency?: string | null
+  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rawText?: string | null
+  extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  fileData?: Prisma.FileDataCreateNestedOneWithoutDocumentInput
+  issues?: Prisma.ValidationIssueCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentUncheckedCreateWithoutLineItemsInput = {
   id?: string
   filename: string
+  format: $Enums.Format
+  status?: $Enums.Status
   type?: $Enums.DocumentType | null
   supplierName?: string | null
   documentNumber?: string | null
@@ -642,9 +863,12 @@ export type DocumentUncheckedCreateWithoutLineItemsInput = {
   subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rawText?: string | null
+  extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  fileData?: string | null
+  fileData?: Prisma.FileDataUncheckedCreateNestedOneWithoutDocumentInput
+  issues?: Prisma.ValidationIssueUncheckedCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentCreateOrConnectWithoutLineItemsInput = {
@@ -666,6 +890,8 @@ export type DocumentUpdateToOneWithWhereWithoutLineItemsInput = {
 export type DocumentUpdateWithoutLineItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   filename?: Prisma.StringFieldUpdateOperationsInput | string
+  format?: Prisma.EnumFormatFieldUpdateOperationsInput | $Enums.Format
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   type?: Prisma.NullableEnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType | null
   supplierName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -675,14 +901,19 @@ export type DocumentUpdateWithoutLineItemsInput = {
   subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rawText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fileData?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileData?: Prisma.FileDataUpdateOneWithoutDocumentNestedInput
+  issues?: Prisma.ValidationIssueUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentUncheckedUpdateWithoutLineItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   filename?: Prisma.StringFieldUpdateOperationsInput | string
+  format?: Prisma.EnumFormatFieldUpdateOperationsInput | $Enums.Format
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   type?: Prisma.NullableEnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType | null
   supplierName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -692,9 +923,116 @@ export type DocumentUncheckedUpdateWithoutLineItemsInput = {
   subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   tax?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rawText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fileData?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileData?: Prisma.FileDataUncheckedUpdateOneWithoutDocumentNestedInput
+  issues?: Prisma.ValidationIssueUncheckedUpdateManyWithoutDocumentNestedInput
+}
+
+export type DocumentCreateWithoutFileDataInput = {
+  id?: string
+  filename: string
+  format: $Enums.Format
+  status?: $Enums.Status
+  type?: $Enums.DocumentType | null
+  supplierName?: string | null
+  documentNumber?: string | null
+  issueDate?: Date | string | null
+  dueDate?: Date | string | null
+  currency?: string | null
+  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rawText?: string | null
+  extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lineItems?: Prisma.LineItemCreateNestedManyWithoutDocumentInput
+  issues?: Prisma.ValidationIssueCreateNestedManyWithoutDocumentInput
+}
+
+export type DocumentUncheckedCreateWithoutFileDataInput = {
+  id?: string
+  filename: string
+  format: $Enums.Format
+  status?: $Enums.Status
+  type?: $Enums.DocumentType | null
+  supplierName?: string | null
+  documentNumber?: string | null
+  issueDate?: Date | string | null
+  dueDate?: Date | string | null
+  currency?: string | null
+  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rawText?: string | null
+  extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lineItems?: Prisma.LineItemUncheckedCreateNestedManyWithoutDocumentInput
+  issues?: Prisma.ValidationIssueUncheckedCreateNestedManyWithoutDocumentInput
+}
+
+export type DocumentCreateOrConnectWithoutFileDataInput = {
+  where: Prisma.DocumentWhereUniqueInput
+  create: Prisma.XOR<Prisma.DocumentCreateWithoutFileDataInput, Prisma.DocumentUncheckedCreateWithoutFileDataInput>
+}
+
+export type DocumentUpsertWithoutFileDataInput = {
+  update: Prisma.XOR<Prisma.DocumentUpdateWithoutFileDataInput, Prisma.DocumentUncheckedUpdateWithoutFileDataInput>
+  create: Prisma.XOR<Prisma.DocumentCreateWithoutFileDataInput, Prisma.DocumentUncheckedCreateWithoutFileDataInput>
+  where?: Prisma.DocumentWhereInput
+}
+
+export type DocumentUpdateToOneWithWhereWithoutFileDataInput = {
+  where?: Prisma.DocumentWhereInput
+  data: Prisma.XOR<Prisma.DocumentUpdateWithoutFileDataInput, Prisma.DocumentUncheckedUpdateWithoutFileDataInput>
+}
+
+export type DocumentUpdateWithoutFileDataInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  filename?: Prisma.StringFieldUpdateOperationsInput | string
+  format?: Prisma.EnumFormatFieldUpdateOperationsInput | $Enums.Format
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  type?: Prisma.NullableEnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType | null
+  supplierName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  issueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rawText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lineItems?: Prisma.LineItemUpdateManyWithoutDocumentNestedInput
+  issues?: Prisma.ValidationIssueUpdateManyWithoutDocumentNestedInput
+}
+
+export type DocumentUncheckedUpdateWithoutFileDataInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  filename?: Prisma.StringFieldUpdateOperationsInput | string
+  format?: Prisma.EnumFormatFieldUpdateOperationsInput | $Enums.Format
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  type?: Prisma.NullableEnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType | null
+  supplierName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  issueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tax?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  rawText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lineItems?: Prisma.LineItemUncheckedUpdateManyWithoutDocumentNestedInput
+  issues?: Prisma.ValidationIssueUncheckedUpdateManyWithoutDocumentNestedInput
 }
 
 
@@ -704,10 +1042,12 @@ export type DocumentUncheckedUpdateWithoutLineItemsInput = {
 
 export type DocumentCountOutputType = {
   lineItems: number
+  issues: number
 }
 
 export type DocumentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   lineItems?: boolean | DocumentCountOutputTypeCountLineItemsArgs
+  issues?: boolean | DocumentCountOutputTypeCountIssuesArgs
 }
 
 /**
@@ -727,10 +1067,19 @@ export type DocumentCountOutputTypeCountLineItemsArgs<ExtArgs extends runtime.Ty
   where?: Prisma.LineItemWhereInput
 }
 
+/**
+ * DocumentCountOutputType without action
+ */
+export type DocumentCountOutputTypeCountIssuesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ValidationIssueWhereInput
+}
+
 
 export type DocumentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   filename?: boolean
+  format?: boolean
+  status?: boolean
   type?: boolean
   supplierName?: boolean
   documentNumber?: boolean
@@ -740,16 +1089,21 @@ export type DocumentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   subtotal?: boolean
   tax?: boolean
   total?: boolean
+  rawText?: boolean
+  extractedJson?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  fileData?: boolean
+  fileData?: boolean | Prisma.Document$fileDataArgs<ExtArgs>
   lineItems?: boolean | Prisma.Document$lineItemsArgs<ExtArgs>
+  issues?: boolean | Prisma.Document$issuesArgs<ExtArgs>
   _count?: boolean | Prisma.DocumentCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["document"]>
 
 export type DocumentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   filename?: boolean
+  format?: boolean
+  status?: boolean
   type?: boolean
   supplierName?: boolean
   documentNumber?: boolean
@@ -759,14 +1113,17 @@ export type DocumentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   subtotal?: boolean
   tax?: boolean
   total?: boolean
+  rawText?: boolean
+  extractedJson?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  fileData?: boolean
 }, ExtArgs["result"]["document"]>
 
 export type DocumentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   filename?: boolean
+  format?: boolean
+  status?: boolean
   type?: boolean
   supplierName?: boolean
   documentNumber?: boolean
@@ -776,14 +1133,17 @@ export type DocumentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   subtotal?: boolean
   tax?: boolean
   total?: boolean
+  rawText?: boolean
+  extractedJson?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  fileData?: boolean
 }, ExtArgs["result"]["document"]>
 
 export type DocumentSelectScalar = {
   id?: boolean
   filename?: boolean
+  format?: boolean
+  status?: boolean
   type?: boolean
   supplierName?: boolean
   documentNumber?: boolean
@@ -793,14 +1153,17 @@ export type DocumentSelectScalar = {
   subtotal?: boolean
   tax?: boolean
   total?: boolean
+  rawText?: boolean
+  extractedJson?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  fileData?: boolean
 }
 
-export type DocumentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "filename" | "type" | "supplierName" | "documentNumber" | "issueDate" | "dueDate" | "currency" | "subtotal" | "tax" | "total" | "createdAt" | "updatedAt" | "fileData", ExtArgs["result"]["document"]>
+export type DocumentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "filename" | "format" | "status" | "type" | "supplierName" | "documentNumber" | "issueDate" | "dueDate" | "currency" | "subtotal" | "tax" | "total" | "rawText" | "extractedJson" | "createdAt" | "updatedAt", ExtArgs["result"]["document"]>
 export type DocumentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  fileData?: boolean | Prisma.Document$fileDataArgs<ExtArgs>
   lineItems?: boolean | Prisma.Document$lineItemsArgs<ExtArgs>
+  issues?: boolean | Prisma.Document$issuesArgs<ExtArgs>
   _count?: boolean | Prisma.DocumentCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type DocumentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -809,11 +1172,15 @@ export type DocumentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type $DocumentPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Document"
   objects: {
+    fileData: Prisma.$FileDataPayload<ExtArgs> | null
     lineItems: Prisma.$LineItemPayload<ExtArgs>[]
+    issues: Prisma.$ValidationIssuePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     filename: string
+    format: $Enums.Format
+    status: $Enums.Status
     type: $Enums.DocumentType | null
     supplierName: string | null
     documentNumber: string | null
@@ -823,9 +1190,10 @@ export type $DocumentPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     subtotal: runtime.Decimal | null
     tax: runtime.Decimal | null
     total: runtime.Decimal | null
+    rawText: string | null
+    extractedJson: runtime.JsonValue | null
     createdAt: Date
     updatedAt: Date
-    fileData: string | null
   }, ExtArgs["result"]["document"]>
   composites: {}
 }
@@ -1220,7 +1588,9 @@ readonly fields: DocumentFieldRefs;
  */
 export interface Prisma__DocumentClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  fileData<T extends Prisma.Document$fileDataArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Document$fileDataArgs<ExtArgs>>): Prisma.Prisma__FileDataClient<runtime.Types.Result.GetResult<Prisma.$FileDataPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   lineItems<T extends Prisma.Document$lineItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Document$lineItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LineItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  issues<T extends Prisma.Document$issuesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Document$issuesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ValidationIssuePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1252,6 +1622,8 @@ export interface Prisma__DocumentClient<T, Null = never, ExtArgs extends runtime
 export interface DocumentFieldRefs {
   readonly id: Prisma.FieldRef<"Document", 'String'>
   readonly filename: Prisma.FieldRef<"Document", 'String'>
+  readonly format: Prisma.FieldRef<"Document", 'Format'>
+  readonly status: Prisma.FieldRef<"Document", 'Status'>
   readonly type: Prisma.FieldRef<"Document", 'DocumentType'>
   readonly supplierName: Prisma.FieldRef<"Document", 'String'>
   readonly documentNumber: Prisma.FieldRef<"Document", 'String'>
@@ -1261,9 +1633,10 @@ export interface DocumentFieldRefs {
   readonly subtotal: Prisma.FieldRef<"Document", 'Decimal'>
   readonly tax: Prisma.FieldRef<"Document", 'Decimal'>
   readonly total: Prisma.FieldRef<"Document", 'Decimal'>
+  readonly rawText: Prisma.FieldRef<"Document", 'String'>
+  readonly extractedJson: Prisma.FieldRef<"Document", 'Json'>
   readonly createdAt: Prisma.FieldRef<"Document", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Document", 'DateTime'>
-  readonly fileData: Prisma.FieldRef<"Document", 'String'>
 }
     
 
@@ -1657,6 +2030,25 @@ export type DocumentDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
+ * Document.fileData
+ */
+export type Document$fileDataArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FileData
+   */
+  select?: Prisma.FileDataSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FileData
+   */
+  omit?: Prisma.FileDataOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FileDataInclude<ExtArgs> | null
+  where?: Prisma.FileDataWhereInput
+}
+
+/**
  * Document.lineItems
  */
 export type Document$lineItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1678,6 +2070,30 @@ export type Document$lineItemsArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.LineItemScalarFieldEnum | Prisma.LineItemScalarFieldEnum[]
+}
+
+/**
+ * Document.issues
+ */
+export type Document$issuesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ValidationIssue
+   */
+  select?: Prisma.ValidationIssueSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ValidationIssue
+   */
+  omit?: Prisma.ValidationIssueOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ValidationIssueInclude<ExtArgs> | null
+  where?: Prisma.ValidationIssueWhereInput
+  orderBy?: Prisma.ValidationIssueOrderByWithRelationInput | Prisma.ValidationIssueOrderByWithRelationInput[]
+  cursor?: Prisma.ValidationIssueWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ValidationIssueScalarFieldEnum | Prisma.ValidationIssueScalarFieldEnum[]
 }
 
 /**
