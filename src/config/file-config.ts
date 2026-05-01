@@ -28,6 +28,7 @@ export const ACCEPTED_DROPZONE = {
   'image/png': ['.png'],
   'image/jpeg': ['.jpg', '.jpeg'],
   'text/csv': ['.csv'],
+  'text/x-csv': ['.csv'],
   'text/plain': ['.txt'],
   'application/vnd.ms-excel': ['.csv'],
 }
