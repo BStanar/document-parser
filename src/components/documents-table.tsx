@@ -1,17 +1,10 @@
 'use client'
 
-
-import { Badge } from '@/components/ui/badge'
-import { FileTextIcon, ImageIcon, FileSpreadsheetIcon, FileIcon } from 'lucide-react'
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from '@/components/ui/table'
-import { useSuspenseDocuments } from '@/features/documents/hooks/use-documents'
+import { FileTextIcon, ImageIcon, FileSpreadsheetIcon, FileIcon } from 'lucide-react'
+import { useDocuments } from '@/features/documents/hooks/use-documents'
 
 const formatIcon = {
   PDF: <FileTextIcon className="size-4" />,
@@ -27,15 +20,24 @@ const statusStyle = {
   REJECTED: 'bg-red-100 text-red-800',
 }
 
-const statusColor = {
-  UPLOADED: 'secondary',
-  NEEDS_REVIEW: 'warning',
-  VALIDATED: 'success',
-  REJECTED: 'destructive',
-} as const
-
 export const DocumentsTable = () => {
-  const { data: documents } = useSuspenseDocuments()
+  const { data: documents = [], isLoading, error } = useDocuments()
+
+  if (isLoading) {
+    return (
+      <div className="text-center py-10 text-muted-foreground text-sm">
+        Loading documents...
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-10 text-destructive text-sm">
+        Failed to load documents.
+      </div>
+    )
+  }
 
   if (documents.length === 0) {
     return (
@@ -68,10 +70,10 @@ export const DocumentsTable = () => {
             </TableCell>
             <TableCell>{doc.type ?? '-'}</TableCell>
             <TableCell>
-  <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${statusStyle[doc.status]}`}>
-    {doc.status.replace('_', ' ')}
-  </span>
-</TableCell>
+              <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${statusStyle[doc.status]}`}>
+                {doc.status.replace('_', ' ')}
+              </span>
+            </TableCell>
             <TableCell className="text-muted-foreground text-sm">
               {new Date(doc.createdAt).toLocaleDateString()}
             </TableCell>
