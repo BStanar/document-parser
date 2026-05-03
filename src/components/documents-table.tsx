@@ -1,34 +1,45 @@
-'use client'
+"use client";
 
 import {
-  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
-} from '@/components/ui/table'
-import { FileTextIcon, ImageIcon, FileSpreadsheetIcon, FileIcon } from 'lucide-react'
-import { useDocuments } from '@/features/documents/hooks/use-documents'
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  FileTextIcon,
+  ImageIcon,
+  FileSpreadsheetIcon,
+  FileIcon,
+} from "lucide-react";
+import { useDocuments } from "@/features/documents/hooks/use-documents";
+import Link from "next/link";
 
 const formatIcon = {
   PDF: <FileTextIcon className="size-4" />,
   IMAGE: <ImageIcon className="size-4" />,
   CSV: <FileSpreadsheetIcon className="size-4" />,
   TXT: <FileIcon className="size-4" />,
-}
+};
 
 const statusStyle = {
-  UPLOADED: 'bg-secondary text-secondary-foreground',
-  NEEDS_REVIEW: 'bg-yellow-100 text-yellow-800',
-  VALIDATED: 'bg-green-100 text-green-800',
-  REJECTED: 'bg-red-100 text-red-800',
-}
+  UPLOADED: "bg-secondary text-secondary-foreground",
+  NEEDS_REVIEW: "bg-yellow-100 text-yellow-800",
+  VALIDATED: "bg-green-100 text-green-800",
+  REJECTED: "bg-red-100 text-red-800",
+};
 
 export const DocumentsTable = () => {
-  const { data: documents = [], isLoading, error } = useDocuments()
+  const { data: documents = [], isLoading, error } = useDocuments();
 
   if (isLoading) {
     return (
       <div className="text-center py-10 text-muted-foreground text-sm">
         Loading documents...
       </div>
-    )
+    );
   }
 
   if (error) {
@@ -36,7 +47,7 @@ export const DocumentsTable = () => {
       <div className="text-center py-10 text-destructive text-sm">
         Failed to load documents.
       </div>
-    )
+    );
   }
 
   if (documents.length === 0) {
@@ -44,7 +55,7 @@ export const DocumentsTable = () => {
       <div className="text-center py-10 text-muted-foreground text-sm">
         No documents uploaded yet.
       </div>
-    )
+    );
   }
 
   return (
@@ -61,17 +72,23 @@ export const DocumentsTable = () => {
       <TableBody>
         {documents.map((doc) => (
           <TableRow key={doc.id}>
-            <TableCell className="font-medium">{doc.filename}</TableCell>
+            <TableCell className="font-medium">
+              <Link href={`/documents/${doc.id}`} className="hover:underline">
+                {doc.filename}
+              </Link>
+            </TableCell>
             <TableCell>
               <span className="flex items-center gap-1 text-muted-foreground">
                 {formatIcon[doc.format]}
                 {doc.format}
               </span>
             </TableCell>
-            <TableCell>{doc.type ?? '-'}</TableCell>
+            <TableCell>{doc.type ?? "-"}</TableCell>
             <TableCell>
-              <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${statusStyle[doc.status]}`}>
-                {doc.status.replace('_', ' ')}
+              <span
+                className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${statusStyle[doc.status]}`}
+              >
+                {doc.status.replace("_", " ")}
               </span>
             </TableCell>
             <TableCell className="text-muted-foreground text-sm">
@@ -81,5 +98,5 @@ export const DocumentsTable = () => {
         ))}
       </TableBody>
     </Table>
-  )
-}
+  );
+};

@@ -27,33 +27,33 @@ export type AggregateLineItem = {
 }
 
 export type LineItemAvgAggregateOutputType = {
-  quantity: runtime.Decimal | null
-  price: runtime.Decimal | null
-  total: runtime.Decimal | null
+  quantity: number | null
+  price: number | null
+  total: number | null
 }
 
 export type LineItemSumAggregateOutputType = {
-  quantity: runtime.Decimal | null
-  price: runtime.Decimal | null
-  total: runtime.Decimal | null
+  quantity: number | null
+  price: number | null
+  total: number | null
 }
 
 export type LineItemMinAggregateOutputType = {
   id: string | null
   documentId: string | null
   description: string | null
-  quantity: runtime.Decimal | null
-  price: runtime.Decimal | null
-  total: runtime.Decimal | null
+  quantity: number | null
+  price: number | null
+  total: number | null
 }
 
 export type LineItemMaxAggregateOutputType = {
   id: string | null
   documentId: string | null
   description: string | null
-  quantity: runtime.Decimal | null
-  price: runtime.Decimal | null
-  total: runtime.Decimal | null
+  quantity: number | null
+  price: number | null
+  total: number | null
 }
 
 export type LineItemCountAggregateOutputType = {
@@ -197,9 +197,9 @@ export type LineItemGroupByOutputType = {
   id: string
   documentId: string
   description: string | null
-  quantity: runtime.Decimal | null
-  price: runtime.Decimal | null
-  total: runtime.Decimal | null
+  quantity: number | null
+  price: number | null
+  total: number | null
   _count: LineItemCountAggregateOutputType | null
   _avg: LineItemAvgAggregateOutputType | null
   _sum: LineItemSumAggregateOutputType | null
@@ -229,9 +229,9 @@ export type LineItemWhereInput = {
   id?: Prisma.StringFilter<"LineItem"> | string
   documentId?: Prisma.StringFilter<"LineItem"> | string
   description?: Prisma.StringNullableFilter<"LineItem"> | string | null
-  quantity?: Prisma.DecimalNullableFilter<"LineItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  price?: Prisma.DecimalNullableFilter<"LineItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: Prisma.DecimalNullableFilter<"LineItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  quantity?: Prisma.FloatNullableFilter<"LineItem"> | number | null
+  price?: Prisma.FloatNullableFilter<"LineItem"> | number | null
+  total?: Prisma.FloatNullableFilter<"LineItem"> | number | null
   document?: Prisma.XOR<Prisma.DocumentScalarRelationFilter, Prisma.DocumentWhereInput>
   issues?: Prisma.ValidationIssueListRelationFilter
 }
@@ -254,9 +254,9 @@ export type LineItemWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.LineItemWhereInput | Prisma.LineItemWhereInput[]
   documentId?: Prisma.StringFilter<"LineItem"> | string
   description?: Prisma.StringNullableFilter<"LineItem"> | string | null
-  quantity?: Prisma.DecimalNullableFilter<"LineItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  price?: Prisma.DecimalNullableFilter<"LineItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: Prisma.DecimalNullableFilter<"LineItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  quantity?: Prisma.FloatNullableFilter<"LineItem"> | number | null
+  price?: Prisma.FloatNullableFilter<"LineItem"> | number | null
+  total?: Prisma.FloatNullableFilter<"LineItem"> | number | null
   document?: Prisma.XOR<Prisma.DocumentScalarRelationFilter, Prisma.DocumentWhereInput>
   issues?: Prisma.ValidationIssueListRelationFilter
 }, "id">
@@ -282,17 +282,17 @@ export type LineItemScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"LineItem"> | string
   documentId?: Prisma.StringWithAggregatesFilter<"LineItem"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"LineItem"> | string | null
-  quantity?: Prisma.DecimalNullableWithAggregatesFilter<"LineItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  price?: Prisma.DecimalNullableWithAggregatesFilter<"LineItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: Prisma.DecimalNullableWithAggregatesFilter<"LineItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  quantity?: Prisma.FloatNullableWithAggregatesFilter<"LineItem"> | number | null
+  price?: Prisma.FloatNullableWithAggregatesFilter<"LineItem"> | number | null
+  total?: Prisma.FloatNullableWithAggregatesFilter<"LineItem"> | number | null
 }
 
 export type LineItemCreateInput = {
   id?: string
   description?: string | null
-  quantity?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  quantity?: number | null
+  price?: number | null
+  total?: number | null
   document: Prisma.DocumentCreateNestedOneWithoutLineItemsInput
   issues?: Prisma.ValidationIssueCreateNestedManyWithoutLineItemInput
 }
@@ -301,18 +301,18 @@ export type LineItemUncheckedCreateInput = {
   id?: string
   documentId: string
   description?: string | null
-  quantity?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  quantity?: number | null
+  price?: number | null
+  total?: number | null
   issues?: Prisma.ValidationIssueUncheckedCreateNestedManyWithoutLineItemInput
 }
 
 export type LineItemUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  quantity?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  quantity?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  total?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   document?: Prisma.DocumentUpdateOneRequiredWithoutLineItemsNestedInput
   issues?: Prisma.ValidationIssueUpdateManyWithoutLineItemNestedInput
 }
@@ -321,9 +321,9 @@ export type LineItemUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   documentId?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  quantity?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  quantity?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  total?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   issues?: Prisma.ValidationIssueUncheckedUpdateManyWithoutLineItemNestedInput
 }
 
@@ -331,26 +331,26 @@ export type LineItemCreateManyInput = {
   id?: string
   documentId: string
   description?: string | null
-  quantity?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  quantity?: number | null
+  price?: number | null
+  total?: number | null
 }
 
 export type LineItemUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  quantity?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  quantity?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  total?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
 }
 
 export type LineItemUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   documentId?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  quantity?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  quantity?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  total?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
 }
 
 export type LineItemListRelationFilter = {
@@ -468,18 +468,18 @@ export type LineItemUpdateOneWithoutIssuesNestedInput = {
 export type LineItemCreateWithoutDocumentInput = {
   id?: string
   description?: string | null
-  quantity?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  quantity?: number | null
+  price?: number | null
+  total?: number | null
   issues?: Prisma.ValidationIssueCreateNestedManyWithoutLineItemInput
 }
 
 export type LineItemUncheckedCreateWithoutDocumentInput = {
   id?: string
   description?: string | null
-  quantity?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  quantity?: number | null
+  price?: number | null
+  total?: number | null
   issues?: Prisma.ValidationIssueUncheckedCreateNestedManyWithoutLineItemInput
 }
 
@@ -516,17 +516,17 @@ export type LineItemScalarWhereInput = {
   id?: Prisma.StringFilter<"LineItem"> | string
   documentId?: Prisma.StringFilter<"LineItem"> | string
   description?: Prisma.StringNullableFilter<"LineItem"> | string | null
-  quantity?: Prisma.DecimalNullableFilter<"LineItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  price?: Prisma.DecimalNullableFilter<"LineItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: Prisma.DecimalNullableFilter<"LineItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  quantity?: Prisma.FloatNullableFilter<"LineItem"> | number | null
+  price?: Prisma.FloatNullableFilter<"LineItem"> | number | null
+  total?: Prisma.FloatNullableFilter<"LineItem"> | number | null
 }
 
 export type LineItemCreateWithoutIssuesInput = {
   id?: string
   description?: string | null
-  quantity?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  quantity?: number | null
+  price?: number | null
+  total?: number | null
   document: Prisma.DocumentCreateNestedOneWithoutLineItemsInput
 }
 
@@ -534,9 +534,9 @@ export type LineItemUncheckedCreateWithoutIssuesInput = {
   id?: string
   documentId: string
   description?: string | null
-  quantity?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  quantity?: number | null
+  price?: number | null
+  total?: number | null
 }
 
 export type LineItemCreateOrConnectWithoutIssuesInput = {
@@ -558,9 +558,9 @@ export type LineItemUpdateToOneWithWhereWithoutIssuesInput = {
 export type LineItemUpdateWithoutIssuesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  quantity?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  quantity?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  total?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   document?: Prisma.DocumentUpdateOneRequiredWithoutLineItemsNestedInput
 }
 
@@ -568,43 +568,43 @@ export type LineItemUncheckedUpdateWithoutIssuesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   documentId?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  quantity?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  quantity?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  total?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
 }
 
 export type LineItemCreateManyDocumentInput = {
   id?: string
   description?: string | null
-  quantity?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  quantity?: number | null
+  price?: number | null
+  total?: number | null
 }
 
 export type LineItemUpdateWithoutDocumentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  quantity?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  quantity?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  total?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   issues?: Prisma.ValidationIssueUpdateManyWithoutLineItemNestedInput
 }
 
 export type LineItemUncheckedUpdateWithoutDocumentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  quantity?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  quantity?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  total?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   issues?: Prisma.ValidationIssueUncheckedUpdateManyWithoutLineItemNestedInput
 }
 
 export type LineItemUncheckedUpdateManyWithoutDocumentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  quantity?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  quantity?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  total?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
 }
 
 
@@ -702,9 +702,9 @@ export type $LineItemPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     id: string
     documentId: string
     description: string | null
-    quantity: runtime.Decimal | null
-    price: runtime.Decimal | null
-    total: runtime.Decimal | null
+    quantity: number | null
+    price: number | null
+    total: number | null
   }, ExtArgs["result"]["lineItem"]>
   composites: {}
 }
@@ -1133,9 +1133,9 @@ export interface LineItemFieldRefs {
   readonly id: Prisma.FieldRef<"LineItem", 'String'>
   readonly documentId: Prisma.FieldRef<"LineItem", 'String'>
   readonly description: Prisma.FieldRef<"LineItem", 'String'>
-  readonly quantity: Prisma.FieldRef<"LineItem", 'Decimal'>
-  readonly price: Prisma.FieldRef<"LineItem", 'Decimal'>
-  readonly total: Prisma.FieldRef<"LineItem", 'Decimal'>
+  readonly quantity: Prisma.FieldRef<"LineItem", 'Float'>
+  readonly price: Prisma.FieldRef<"LineItem", 'Float'>
+  readonly total: Prisma.FieldRef<"LineItem", 'Float'>
 }
     
 

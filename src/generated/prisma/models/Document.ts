@@ -27,15 +27,15 @@ export type AggregateDocument = {
 }
 
 export type DocumentAvgAggregateOutputType = {
-  subtotal: runtime.Decimal | null
-  tax: runtime.Decimal | null
-  total: runtime.Decimal | null
+  subtotal: number | null
+  tax: number | null
+  total: number | null
 }
 
 export type DocumentSumAggregateOutputType = {
-  subtotal: runtime.Decimal | null
-  tax: runtime.Decimal | null
-  total: runtime.Decimal | null
+  subtotal: number | null
+  tax: number | null
+  total: number | null
 }
 
 export type DocumentMinAggregateOutputType = {
@@ -49,9 +49,9 @@ export type DocumentMinAggregateOutputType = {
   issueDate: Date | null
   dueDate: Date | null
   currency: string | null
-  subtotal: runtime.Decimal | null
-  tax: runtime.Decimal | null
-  total: runtime.Decimal | null
+  subtotal: number | null
+  tax: number | null
+  total: number | null
   rawText: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -68,9 +68,9 @@ export type DocumentMaxAggregateOutputType = {
   issueDate: Date | null
   dueDate: Date | null
   currency: string | null
-  subtotal: runtime.Decimal | null
-  tax: runtime.Decimal | null
-  total: runtime.Decimal | null
+  subtotal: number | null
+  tax: number | null
+  total: number | null
   rawText: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -266,9 +266,9 @@ export type DocumentGroupByOutputType = {
   issueDate: Date | null
   dueDate: Date | null
   currency: string | null
-  subtotal: runtime.Decimal | null
-  tax: runtime.Decimal | null
-  total: runtime.Decimal | null
+  subtotal: number | null
+  tax: number | null
+  total: number | null
   rawText: string | null
   extractedJson: runtime.JsonValue | null
   createdAt: Date
@@ -309,9 +309,9 @@ export type DocumentWhereInput = {
   issueDate?: Prisma.DateTimeNullableFilter<"Document"> | Date | string | null
   dueDate?: Prisma.DateTimeNullableFilter<"Document"> | Date | string | null
   currency?: Prisma.StringNullableFilter<"Document"> | string | null
-  subtotal?: Prisma.DecimalNullableFilter<"Document"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax?: Prisma.DecimalNullableFilter<"Document"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: Prisma.DecimalNullableFilter<"Document"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  subtotal?: Prisma.FloatNullableFilter<"Document"> | number | null
+  tax?: Prisma.FloatNullableFilter<"Document"> | number | null
+  total?: Prisma.FloatNullableFilter<"Document"> | number | null
   rawText?: Prisma.StringNullableFilter<"Document"> | string | null
   extractedJson?: Prisma.JsonNullableFilter<"Document">
   createdAt?: Prisma.DateTimeFilter<"Document"> | Date | string
@@ -358,9 +358,9 @@ export type DocumentWhereUniqueInput = Prisma.AtLeast<{
   issueDate?: Prisma.DateTimeNullableFilter<"Document"> | Date | string | null
   dueDate?: Prisma.DateTimeNullableFilter<"Document"> | Date | string | null
   currency?: Prisma.StringNullableFilter<"Document"> | string | null
-  subtotal?: Prisma.DecimalNullableFilter<"Document"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax?: Prisma.DecimalNullableFilter<"Document"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: Prisma.DecimalNullableFilter<"Document"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  subtotal?: Prisma.FloatNullableFilter<"Document"> | number | null
+  tax?: Prisma.FloatNullableFilter<"Document"> | number | null
+  total?: Prisma.FloatNullableFilter<"Document"> | number | null
   rawText?: Prisma.StringNullableFilter<"Document"> | string | null
   extractedJson?: Prisma.JsonNullableFilter<"Document">
   createdAt?: Prisma.DateTimeFilter<"Document"> | Date | string
@@ -409,9 +409,9 @@ export type DocumentScalarWhereWithAggregatesInput = {
   issueDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Document"> | Date | string | null
   dueDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Document"> | Date | string | null
   currency?: Prisma.StringNullableWithAggregatesFilter<"Document"> | string | null
-  subtotal?: Prisma.DecimalNullableWithAggregatesFilter<"Document"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax?: Prisma.DecimalNullableWithAggregatesFilter<"Document"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: Prisma.DecimalNullableWithAggregatesFilter<"Document"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  subtotal?: Prisma.FloatNullableWithAggregatesFilter<"Document"> | number | null
+  tax?: Prisma.FloatNullableWithAggregatesFilter<"Document"> | number | null
+  total?: Prisma.FloatNullableWithAggregatesFilter<"Document"> | number | null
   rawText?: Prisma.StringNullableWithAggregatesFilter<"Document"> | string | null
   extractedJson?: Prisma.JsonNullableWithAggregatesFilter<"Document">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Document"> | Date | string
@@ -429,9 +429,9 @@ export type DocumentCreateInput = {
   issueDate?: Date | string | null
   dueDate?: Date | string | null
   currency?: string | null
-  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  subtotal?: number | null
+  tax?: number | null
+  total?: number | null
   rawText?: string | null
   extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -452,9 +452,9 @@ export type DocumentUncheckedCreateInput = {
   issueDate?: Date | string | null
   dueDate?: Date | string | null
   currency?: string | null
-  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  subtotal?: number | null
+  tax?: number | null
+  total?: number | null
   rawText?: string | null
   extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -475,9 +475,9 @@ export type DocumentUpdateInput = {
   issueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  subtotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tax?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  total?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   rawText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -498,9 +498,9 @@ export type DocumentUncheckedUpdateInput = {
   issueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  subtotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tax?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  total?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   rawText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -521,9 +521,9 @@ export type DocumentCreateManyInput = {
   issueDate?: Date | string | null
   dueDate?: Date | string | null
   currency?: string | null
-  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  subtotal?: number | null
+  tax?: number | null
+  total?: number | null
   rawText?: string | null
   extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -541,9 +541,9 @@ export type DocumentUpdateManyMutationInput = {
   issueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  subtotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tax?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  total?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   rawText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -561,9 +561,9 @@ export type DocumentUncheckedUpdateManyInput = {
   issueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  subtotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tax?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  total?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   rawText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -669,12 +669,12 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
 }
 
-export type NullableDecimalFieldUpdateOperationsInput = {
-  set?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
+export type NullableFloatFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -734,9 +734,9 @@ export type DocumentCreateWithoutIssuesInput = {
   issueDate?: Date | string | null
   dueDate?: Date | string | null
   currency?: string | null
-  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  subtotal?: number | null
+  tax?: number | null
+  total?: number | null
   rawText?: string | null
   extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -756,9 +756,9 @@ export type DocumentUncheckedCreateWithoutIssuesInput = {
   issueDate?: Date | string | null
   dueDate?: Date | string | null
   currency?: string | null
-  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  subtotal?: number | null
+  tax?: number | null
+  total?: number | null
   rawText?: string | null
   extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -794,9 +794,9 @@ export type DocumentUpdateWithoutIssuesInput = {
   issueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  subtotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tax?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  total?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   rawText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -816,9 +816,9 @@ export type DocumentUncheckedUpdateWithoutIssuesInput = {
   issueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  subtotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tax?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  total?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   rawText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -838,9 +838,9 @@ export type DocumentCreateWithoutLineItemsInput = {
   issueDate?: Date | string | null
   dueDate?: Date | string | null
   currency?: string | null
-  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  subtotal?: number | null
+  tax?: number | null
+  total?: number | null
   rawText?: string | null
   extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -860,9 +860,9 @@ export type DocumentUncheckedCreateWithoutLineItemsInput = {
   issueDate?: Date | string | null
   dueDate?: Date | string | null
   currency?: string | null
-  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  subtotal?: number | null
+  tax?: number | null
+  total?: number | null
   rawText?: string | null
   extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -898,9 +898,9 @@ export type DocumentUpdateWithoutLineItemsInput = {
   issueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  subtotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tax?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  total?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   rawText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -920,9 +920,9 @@ export type DocumentUncheckedUpdateWithoutLineItemsInput = {
   issueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  subtotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tax?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  total?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   rawText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -942,9 +942,9 @@ export type DocumentCreateWithoutFileDataInput = {
   issueDate?: Date | string | null
   dueDate?: Date | string | null
   currency?: string | null
-  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  subtotal?: number | null
+  tax?: number | null
+  total?: number | null
   rawText?: string | null
   extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -964,9 +964,9 @@ export type DocumentUncheckedCreateWithoutFileDataInput = {
   issueDate?: Date | string | null
   dueDate?: Date | string | null
   currency?: string | null
-  subtotal?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  subtotal?: number | null
+  tax?: number | null
+  total?: number | null
   rawText?: string | null
   extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -1002,9 +1002,9 @@ export type DocumentUpdateWithoutFileDataInput = {
   issueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  subtotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tax?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  total?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   rawText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1024,9 +1024,9 @@ export type DocumentUncheckedUpdateWithoutFileDataInput = {
   issueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subtotal?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  tax?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  subtotal?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tax?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  total?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   rawText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   extractedJson?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1187,9 +1187,9 @@ export type $DocumentPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     issueDate: Date | null
     dueDate: Date | null
     currency: string | null
-    subtotal: runtime.Decimal | null
-    tax: runtime.Decimal | null
-    total: runtime.Decimal | null
+    subtotal: number | null
+    tax: number | null
+    total: number | null
     rawText: string | null
     extractedJson: runtime.JsonValue | null
     createdAt: Date
@@ -1630,9 +1630,9 @@ export interface DocumentFieldRefs {
   readonly issueDate: Prisma.FieldRef<"Document", 'DateTime'>
   readonly dueDate: Prisma.FieldRef<"Document", 'DateTime'>
   readonly currency: Prisma.FieldRef<"Document", 'String'>
-  readonly subtotal: Prisma.FieldRef<"Document", 'Decimal'>
-  readonly tax: Prisma.FieldRef<"Document", 'Decimal'>
-  readonly total: Prisma.FieldRef<"Document", 'Decimal'>
+  readonly subtotal: Prisma.FieldRef<"Document", 'Float'>
+  readonly tax: Prisma.FieldRef<"Document", 'Float'>
+  readonly total: Prisma.FieldRef<"Document", 'Float'>
   readonly rawText: Prisma.FieldRef<"Document", 'String'>
   readonly extractedJson: Prisma.FieldRef<"Document", 'Json'>
   readonly createdAt: Prisma.FieldRef<"Document", 'DateTime'>
