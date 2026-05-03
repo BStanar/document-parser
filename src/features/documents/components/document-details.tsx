@@ -1,14 +1,15 @@
 "use client";
 
-import { useSuspenseDocument } from "@/features/documents/hooks/use-documents";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+  useDocument,
+  useUpdateStatus,
+} from "@/features/documents/hooks/use-documents";
+import {
+  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { EditDocumentDialog } from "./edit-document-dialog";
 
 const statusStyle = {
   UPLOADED: "bg-secondary text-secondary-foreground",
@@ -22,77 +23,103 @@ interface Props {
 }
 
 export const DocumentDetail = ({ id }: Props) => {
-  const { data: doc } = useSuspenseDocument(id);
+  const { data: document, isLoading } = useDocument(id);
+  const { mutate: updateStatus, isPending } = useUpdateStatus();
+  const [isEditOpen, setIsEditOpen] = useState(false);
 
-  const issueFields = new Set(doc.issues.map((i) => i.field));
-  const issuesByLineItem = doc.issues.reduce<Record<string, string[]>>(
-    (acc, i) => {
-      if (!i.lineItemId) return acc;
-      acc[i.lineItemId] ??= [];
-      acc[i.lineItemId].push(i.message);
-      return acc;
+  if (isLoading || !document) {
+    return (
+      <div className="text-center py-10 text-muted-foreground text-sm">
+        Loading...
+      </div>
+    );
+  }
+
+  const fieldsWithIssues = new Set(document.issues.map((issue) => issue.field));
+
+  const issuesByLineItemId = document.issues.reduce<Record<string, string[]>>(
+    (accumulator, issue) => {
+      if (!issue.lineItemId) return accumulator;
+      accumulator[issue.lineItemId] ??= [];
+      accumulator[issue.lineItemId].push(issue.message);
+      return accumulator;
     },
     {},
   );
 
-  const field = (name: string, value: string | null | undefined) => {
-    const hasIssue = issueFields.has(name);
+  const renderField = (fieldName: string, value: string | null | undefined) => {
+    const hasIssue = fieldsWithIssues.has(fieldName);
     return (
-      <div key={name}>
-        <dt
-          className={`text-xs capitalize ${hasIssue ? "text-red-600" : "text-muted-foreground"}`}
-        >
-          {name.replace(/([A-Z])/g, " $1")}
+      <div key={fieldName}>
+        <dt className={`text-xs capitalize ${hasIssue ? "text-red-600" : "text-muted-foreground"}`}>
+          {fieldName.replace(/([A-Z])/g, " $1")}
         </dt>
-        <dd
-          className={`text-sm font-medium mt-0.5 ${hasIssue ? "text-red-600" : ""}`}
-        >
+        <dd className={`text-sm font-medium mt-0.5 ${hasIssue ? "text-red-600" : ""}`}>
           {value ?? <span className="text-muted-foreground italic">—</span>}
         </dd>
       </div>
     );
   };
 
+  const canApprove = document.status !== "VALIDATED";
+  const canReject = document.status !== "REJECTED";
+
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-8">
       {/* Header */}
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-xl font-semibold">{doc.filename}</h1>
+          <h1 className="text-xl font-semibold">{document.filename}</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            {doc.format} · {doc.type ?? "Unknown type"}
+            {document.format} · {document.type ?? "Unknown type"}
           </p>
         </div>
-        <span
-          className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${statusStyle[doc.status]}`}
-        >
-          {doc.status.replace("_", " ")}
-        </span>
+        <div className="flex items-center gap-3">
+          <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${statusStyle[document.status]}`}>
+            {document.status.replace("_", " ")}
+          </span>
+          {canApprove && (
+            <Button
+              size="sm"
+              disabled={isPending}
+              onClick={() => updateStatus({ id: document.id, status: "VALIDATED" })}
+            >
+              Approve
+            </Button>
+          )}
+          {canReject && (
+            <Button
+              size="sm"
+              variant="destructive"
+              disabled={isPending}
+              onClick={() => updateStatus({ id: document.id, status: "REJECTED" })}
+            >
+              Reject
+            </Button>
+          )}
+          <Button size="sm" variant="outline" onClick={() => setIsEditOpen(true)}>
+            Edit
+          </Button>
+        </div>
       </div>
 
       {/* Fields */}
       <section>
         <h2 className="text-sm font-semibold mb-3">Extracted Fields</h2>
         <dl className="grid grid-cols-2 sm:grid-cols-3 gap-4 p-4 border rounded-lg">
-          {field("supplierName", doc.supplierName)}
-          {field("documentNumber", doc.documentNumber)}
-          {field(
-            "issueDate",
-            doc.issueDate ? new Date(doc.issueDate).toLocaleDateString() : null,
-          )}
-          {field(
-            "dueDate",
-            doc.dueDate ? new Date(doc.dueDate).toLocaleDateString() : null,
-          )}
-          {field("currency", doc.currency)}
-          {field("subtotal", doc.subtotal?.toString() ?? null)}
-          {field("tax", doc.tax?.toString() ?? null)}
-          {field("total", doc.total?.toString() ?? null)}
+          {renderField("supplierName", document.supplierName)}
+          {renderField("documentNumber", document.documentNumber)}
+          {renderField("issueDate", document.issueDate ? new Date(document.issueDate).toLocaleDateString() : null)}
+          {renderField("dueDate", document.dueDate ? new Date(document.dueDate).toLocaleDateString() : null)}
+          {renderField("currency", document.currency)}
+          {renderField("subtotal", document.subtotal?.toString() ?? null)}
+          {renderField("tax", document.tax?.toString() ?? null)}
+          {renderField("total", document.total?.toString() ?? null)}
         </dl>
       </section>
 
       {/* Line Items */}
-      {doc.lineItems.length > 0 && (
+      {document.lineItems.length > 0 && (
         <section>
           <h2 className="text-sm font-semibold mb-3">Line Items</h2>
           <Table>
@@ -105,24 +132,15 @@ export const DocumentDetail = ({ id }: Props) => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {doc.lineItems.map((item) => {
-                const hasIssue = !!issuesByLineItem[item.id];
+              {document.lineItems.map((lineItem) => {
+                const lineItemHasIssue = !!issuesByLineItemId[lineItem.id];
                 return (
-                  <TableRow
-                    key={item.id}
-                    className={hasIssue ? "bg-red-50" : ""}
-                  >
-                    <TableCell>{item.description ?? "—"}</TableCell>
-                    <TableCell className="text-right">
-                      {item.quantity?.toString() ?? "—"}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      {item.price?.toString() ?? "—"}
-                    </TableCell>
-                    <TableCell
-                      className={`text-right ${hasIssue ? "text-red-600 font-medium" : ""}`}
-                    >
-                      {item.total?.toString() ?? "—"}
+                  <TableRow key={lineItem.id} className={lineItemHasIssue ? "bg-red-50" : ""}>
+                    <TableCell>{lineItem.description ?? "—"}</TableCell>
+                    <TableCell className="text-right">{lineItem.quantity?.toString() ?? "—"}</TableCell>
+                    <TableCell className="text-right">{lineItem.price?.toString() ?? "—"}</TableCell>
+                    <TableCell className={`text-right ${lineItemHasIssue ? "text-red-600 font-medium" : ""}`}>
+                      {lineItem.total?.toString() ?? "—"}
                     </TableCell>
                   </TableRow>
                 );
@@ -133,13 +151,11 @@ export const DocumentDetail = ({ id }: Props) => {
       )}
 
       {/* Validation Issues */}
-      {doc.issues.length > 0 && (
+      {document.issues.length > 0 && (
         <section>
-          <h2 className="text-sm font-semibold mb-3 text-red-600">
-            Validation Issues
-          </h2>
+          <h2 className="text-sm font-semibold mb-3 text-red-600">Validation Issues</h2>
           <ul className="space-y-1">
-            {doc.issues.map((issue) => (
+            {document.issues.map((issue) => (
               <li key={issue.id} className="text-sm text-red-600 flex gap-2">
                 <span>·</span>
                 <span>{issue.message}</span>
@@ -148,6 +164,12 @@ export const DocumentDetail = ({ id }: Props) => {
           </ul>
         </section>
       )}
+
+      <EditDocumentDialog
+        open={isEditOpen}
+        onOpenChange={setIsEditOpen}
+        document={document}
+      />
     </div>
   );
 };

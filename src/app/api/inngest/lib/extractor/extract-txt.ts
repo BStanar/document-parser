@@ -97,7 +97,29 @@ export function extractTxt(raw: string): ExtractedDocument {
 }
 
 function parseDateStr(dateString: string): string | null {
-  if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) return dateString;
-  const parsed = new Date(dateString);
-  return isNaN(parsed.getTime()) ? null : parsed.toISOString().slice(0, 10);
+  // ISO - already correct
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) return dateString
+
+  // DD/MM/YYYY or MM/DD/YYYY - treat as local, no timezone conversion
+  const slash = dateString.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/)
+  if (slash) {
+    const [, a, b, y] = slash
+    return `${y}-${a.padStart(2, '0')}-${b.padStart(2, '0')}`
+  }
+
+  // DD.MM.YYYY
+  const dot = dateString.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/)
+  if (dot) {
+    const [, d, m, y] = dot
+    return `${y}-${m.padStart(2, '0')}-${d.padStart(2, '0')}`
+  }
+
+  // DD-MM-YYYY
+  const dash = dateString.match(/^(\d{1,2})-(\d{1,2})-(\d{4})$/)
+  if (dash) {
+    const [, d, m, y] = dash
+    return `${y}-${m.padStart(2, '0')}-${d.padStart(2, '0')}`
+  }
+
+  return null
 }

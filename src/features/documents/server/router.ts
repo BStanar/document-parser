@@ -104,4 +104,44 @@ export const documentsRouter = createTRPCRouter({
     .mutation(async ({ input }) => {
       return prisma.document.delete({ where: { id: input.id } });
     }),
+
+  update: baseProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        type: z.enum(["INVOICE", "PURCHASE_ORDER"]).nullable(),
+        supplierName: z.string().nullable(),
+        documentNumber: z.string().nullable(),
+        issueDate: z.string().nullable(),
+        dueDate: z.string().nullable(),
+        currency: z.string().nullable(),
+        subtotal: z.number().nullable(),
+        tax: z.number().nullable(),
+        total: z.number().nullable(),
+      }),
+    )
+    .mutation(async ({ input }) => {
+      const { id, issueDate, dueDate, ...rest } = input;
+      return prisma.document.update({
+        where: { id },
+        data: {
+          ...rest,
+          issueDate: issueDate ? new Date(issueDate) : null,
+          dueDate: dueDate ? new Date(dueDate) : null,
+        },
+      });
+    }),
+
+  reprocess: baseProcedure
+  .input(z.object({ id: z.string() }))
+  .mutation(async ({ input }) => {
+    await prisma.document.update({
+      where: { id: input.id },
+      data: { status: 'UPLOADED' },
+    })
+    await inngest.send({
+      name: 'document/uploaded',
+      data: { documentId: input.id },
+    })
+  }),
 });
