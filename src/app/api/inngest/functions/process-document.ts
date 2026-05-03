@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/db";
 import { extractFields, ExtractedDocument } from "../lib/extract-fields";
 import { inngest } from "@/inngest/client";
+import { validateDocument } from "../lib/validator/validate-document";
 
 const parseDate = (s: string | null | undefined): Date | undefined => {
   if (!s) return undefined;
@@ -74,13 +75,27 @@ export const processDocument = inngest.createFunction(
                 quantity: item.quantity ?? undefined,
                 price: item.price ?? undefined,
                 total: item.total ?? undefined,
-              })
+              }),
             ),
           },
         },
       });
     });
 
+    await step.run("run-validation", async () => {
+      const issues = await validateDocument(documentId);
+
+      if (issues.length > 0) {
+        await prisma.validationIssue.createMany({
+          data: issues.map(({ lineItemId, ...rest }) => ({
+            ...rest,
+            documentId,
+            lineItemId: lineItemId ?? null,
+          })),
+        });
+      }
+    });
+    
     return { documentId, status: "NEEDS_REVIEW" };
-  }
+  },
 );

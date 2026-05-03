@@ -1,5 +1,6 @@
 import Papa from 'papaparse'
 import { ExtractedDocument } from '../extract-fields'
+import { parseAmount } from '../parse-amount'
 
 export function extractCsv(raw: string): ExtractedDocument {
   const { data, errors } = Papa.parse<Record<string, string>>(raw, {
@@ -10,10 +11,7 @@ export function extractCsv(raw: string): ExtractedDocument {
   if (errors.length && !data.length) return emptyDoc()
 
   const lineItems = data.map((row) => {
-    const num = (key: string) => {
-      const v = parseFloat(row[key] ?? '')
-      return isNaN(v) ? null : v
-    }
+    const num = (key: string) => parseAmount(row[key])
     return {
       description: row['desc'] ?? row['description'] ?? null,
       quantity:    num('qty') ?? num('quantity'),

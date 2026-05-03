@@ -18,9 +18,9 @@ model Document {
   issueDate      DateTime?
   dueDate        DateTime?
   currency       String?
-  subtotal       Decimal?
-  tax            Decimal?
-  total          Decimal?
+  subtotal       Float?
+  tax            Float?
+  total          Float?
   rawText        String?
   extractedJson  Json?
   fileData       FileData?
@@ -46,9 +46,9 @@ model LineItem {
   documentId  String
   document    Document          @relation(fields: [documentId], references: [id], onDelete: Cascade)
   description String?
-  quantity    Decimal?
-  price       Decimal?
-  total       Decimal?
+  quantity    Float?
+  price       Float?
+  total       Float ?
   issues      ValidationIssue[]
 }
 
