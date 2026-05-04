@@ -94,3 +94,8 @@ export const useReprocessDocument = () => {
     })
   )
 }
+
+export const useCurrencySummary = () => {
+  const trpc = useTRPC()
+  return useQuery(trpc.documents.getTotalsByCurrency.queryOptions())
+}

@@ -1,7 +1,8 @@
-import { UploadArea } from '@/components/upload-area'
-import { DocumentsTable } from '@/components/documents-table'
-import { Suspense } from 'react'
-import { Skeleton } from '@/components/ui/skeleton'
+import { UploadArea } from "@/components/upload-area";
+import { DocumentsTable } from "@/components/documents-table";
+import { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { CurrencyTotals } from "@/features/documents/components/currency-totals-box";
 
 const DocumentsPage = () => {
   return (
@@ -14,10 +15,11 @@ const DocumentsPage = () => {
       </div>
       <UploadArea />
       <Suspense fallback={<Skeleton className="h-40 w-full" />}>
+        <CurrencyTotals />
         <DocumentsTable />
       </Suspense>
     </div>
-  )
-}
+  );
+};
 
-export default DocumentsPage
+export default DocumentsPage;

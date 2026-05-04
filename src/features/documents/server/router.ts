@@ -144,4 +144,32 @@ export const documentsRouter = createTRPCRouter({
       data: { documentId: input.id },
     })
   }),
+
+  getTotalsByCurrency: baseProcedure
+  .query(async () => {
+    const documents = await prisma.document.findMany({
+      where: {
+        currency: { not: null },
+        total: { not: null },
+      },
+      select: { currency: true, total: true },
+    })
+
+    const summary = documents.reduce<Record<string, { count: number; total: number }>>(
+      (accumulator, document) => {
+        const currency = document.currency!
+        accumulator[currency] ??= { count: 0, total: 0 }
+        accumulator[currency].count += 1
+        accumulator[currency].total += document.total!
+        return accumulator
+      },
+      {}
+    )
+
+    return Object.entries(summary).map(([currency, data]) => ({
+      currency,
+      count: data.count,
+      total: data.total,
+    }))
+  }),
 });
