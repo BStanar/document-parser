@@ -115,3 +115,34 @@ export const useReprocessPending = () => {
     })
   )
 }
+
+export const useUpdateLineItems = () => {
+  const trpc = useTRPC()
+  const queryClient = useQueryClient()
+
+  return useMutation(
+    trpc.documents.updateLineItems.mutationOptions({
+      onSuccess: (_, variables) => {
+        queryClient.invalidateQueries({ queryKey: trpc.documents.getOne.queryKey({ id: variables.documentId }) })
+      },
+      onError: (error) => toast.error(`Failed to update line items: ${error.message}`),
+    })
+  )
+}
+
+export const useRevalidateDocument = () => {
+  const trpc = useTRPC()
+  const queryClient = useQueryClient()
+  return useMutation(
+    trpc.documents.revalidate.mutationOptions({
+      onSuccess: (_, variables) => {
+        toast.success('Revalidation queued')
+        setTimeout(() => {
+          queryClient.invalidateQueries({ queryKey: trpc.documents.getOne.queryKey({ id: variables.id }) })
+          queryClient.invalidateQueries({ queryKey: trpc.documents.getMany.queryKey() })
+        }, 600)
+      },
+      onError: (error) => toast.error(`Failed: ${error.message}`),
+    })
+  )
+}

@@ -133,62 +133,122 @@ export const documentsRouter = createTRPCRouter({
     }),
 
   reprocess: baseProcedure
-  .input(z.object({ id: z.string() }))
-  .mutation(async ({ input }) => {
-    await prisma.document.update({
-      where: { id: input.id },
-      data: { status: 'UPLOADED' },
-    })
-    await inngest.send({
-      name: 'document/uploaded',
-      data: { documentId: input.id },
-    })
-  }),
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ input }) => {
+      await prisma.document.update({
+        where: { id: input.id },
+        data: { status: "UPLOADED" },
+      });
+      await inngest.send({
+        name: "document/uploaded",
+        data: { documentId: input.id },
+      });
+    }),
 
-  getTotalsByCurrency: baseProcedure
-  .query(async () => {
+  revalidate: baseProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ input }) => {
+      await prisma.document.update({
+        where: { id: input.id },
+        data: { status: "NEEDS_REVIEW" },
+      });
+      await inngest.send({
+        name: "document/revalidate",
+        data: { documentId: input.id },
+      });
+    }),
+
+  getTotalsByCurrency: baseProcedure.query(async () => {
     const documents = await prisma.document.findMany({
       where: {
         currency: { not: null },
         total: { not: null },
       },
       select: { currency: true, total: true },
-    })
+    });
 
-    const summary = documents.reduce<Record<string, { count: number; total: number }>>(
-      (accumulator, document) => {
-        const currency = document.currency!
-        accumulator[currency] ??= { count: 0, total: 0 }
-        accumulator[currency].count += 1
-        accumulator[currency].total += document.total!
-        return accumulator
-      },
-      {}
-    )
+    const summary = documents.reduce<
+      Record<string, { count: number; total: number }>
+    >((accumulator, document) => {
+      const currency = document.currency!;
+      accumulator[currency] ??= { count: 0, total: 0 };
+      accumulator[currency].count += 1;
+      accumulator[currency].total += document.total!;
+      return accumulator;
+    }, {});
 
     return Object.entries(summary).map(([currency, data]) => ({
       currency,
       count: data.count,
       total: data.total,
-    }))
+    }));
   }),
 
-  reprocessPending: baseProcedure
-  .mutation(async () => {
+  reprocessPending: baseProcedure.mutation(async () => {
     const pendingDocuments = await prisma.document.findMany({
-      where: { status: 'UPLOADED' },
+      where: { status: "UPLOADED" },
       select: { id: true },
-    })
+    });
 
     await Promise.all(
       pendingDocuments.map((document) =>
         inngest.send({
-          name: 'document/uploaded',
+          name: "document/uploaded",
           data: { documentId: document.id },
-        })
-      )
-    )
+        }),
+      ),
+    );
 
-    return { count: pendingDocuments.length }
+    return { count: pendingDocuments.length };
   }),
+
+  updateLineItems: baseProcedure
+    .input(
+      z.object({
+        documentId: z.string(),
+        lineItems: z.array(
+          z.object({
+            id: z.string(),
+            description: z.string().nullable(),
+            quantity: z.number().nullable(),
+            price: z.number().nullable(),
+            total: z.number().nullable(),
+            isNew: z.boolean().optional(),
+          }),
+        ),
+        deletedItemIds: z.array(z.string()).optional(),
+      }),
+    )
+    .mutation(async ({ input }) => {
+      if (input.deletedItemIds?.length) {
+        await prisma.lineItem.deleteMany({
+          where: { id: { in: input.deletedItemIds } },
+        });
+      }
+
+      await Promise.all(
+        input.lineItems.map((item) => {
+          if (item.isNew || !item.id) {
+            return prisma.lineItem.create({
+              data: {
+                documentId: input.documentId,
+                description: item.description ?? undefined,
+                quantity: item.quantity ?? undefined,
+                price: item.price ?? undefined,
+                total: item.total ?? undefined,
+              },
+            });
+          }
+          return prisma.lineItem.update({
+            where: { id: item.id },
+            data: {
+              description: item.description ?? undefined,
+              quantity: item.quantity ?? undefined,
+              price: item.price ?? undefined,
+              total: item.total ?? undefined,
+            },
+          });
+        }),
+      );
+    }),
 });

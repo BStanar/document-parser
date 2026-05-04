@@ -41,19 +41,28 @@ export const processDocument = inngest.createFunction(
         case "TXT":
         case "CSV":
           return buffer.toString("utf-8");
+        case "PDF":
         case "IMAGE":
-          return ""; // extraction handled in parse-structured-fields
+          return "";
         default:
           throw new Error(`Format ${document.format} not yet supported`);
       }
     });
 
     const extracted = await step.run("parse-structured-fields", async () => {
+      const buffer = Buffer.from(document.fileData!.data, "base64");
+
       if (document.format === "IMAGE") {
-        const { extractImage } = await import("../lib/extractor/extract-image");
-        const buffer = Buffer.from(document.fileData!.data, "base64");
+        const { extractImage } =
+          await import("../lib/extractor/extract-image");
         return extractImage(buffer);
       }
+
+      if (document.format === "PDF") {
+        const { extractPdf } = await import("../lib/extractor/extract-pdf");
+        return extractPdf(buffer);
+      }
+
       return extractFields(rawText, document.format as "TXT" | "CSV");
     });
 
@@ -90,18 +99,24 @@ export const processDocument = inngest.createFunction(
     });
 
     await step.run("run-validation", async () => {
-      const issues = await validateDocument(documentId);
-      await prisma.validationIssue.deleteMany({ where: { documentId } });
-      if (issues.length > 0) {
-        await prisma.validationIssue.createMany({
-          data: issues.map(({ lineItemId, ...rest }) => ({
-            ...rest,
-            documentId,
-            lineItemId: lineItemId ?? null,
-          })),
-        });
-      }
+  const issues = await validateDocument(documentId);
+  await prisma.validationIssue.deleteMany({ where: { documentId } });
+
+  if (issues.length > 0) {
+    await prisma.validationIssue.createMany({
+      data: issues.map(({ lineItemId, ...rest }) => ({
+        ...rest,
+        documentId,
+        lineItemId: lineItemId ?? null,
+      })),
     });
+  }
+
+  await prisma.document.update({
+    where: { id: documentId },
+    data: { status: issues.length === 0 ? "VALIDATED" : "NEEDS_REVIEW" },
+  });
+});
 
     return { documentId, status: "NEEDS_REVIEW" };
   },
