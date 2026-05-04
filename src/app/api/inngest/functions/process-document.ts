@@ -84,7 +84,7 @@ export const processDocument = inngest.createFunction(
 
     await step.run("run-validation", async () => {
       const issues = await validateDocument(documentId);
-
+      await prisma.validationIssue.deleteMany({ where: { documentId } });
       if (issues.length > 0) {
         await prisma.validationIssue.createMany({
           data: issues.map(({ lineItemId, ...rest }) => ({
@@ -95,7 +95,7 @@ export const processDocument = inngest.createFunction(
         });
       }
     });
-    
+
     return { documentId, status: "NEEDS_REVIEW" };
   },
 );

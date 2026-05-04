@@ -1,10 +1,4 @@
-"use client"
-import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-
-const page = () => {
-  const router = useRouter()
-  useEffect(() => { router.push("/documents") }, [])
+import { redirect } from "next/navigation";
+export default function Page() {
+  redirect("/documents");
 }
-
-export default page
