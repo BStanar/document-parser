@@ -36,12 +36,12 @@ export const useDocument = (id: string) => {
 export const useRemoveDocument = () => {
   const trpc = useTRPC()
   const queryClient = useQueryClient()
-
   return useMutation(
     trpc.documents.remove.mutationOptions({
       onSuccess: () => {
         toast.success('Document removed')
         queryClient.invalidateQueries({ queryKey: trpc.documents.getMany.queryKey() })
+        queryClient.invalidateQueries({ queryKey: trpc.documents.getTotalsByCurrency.queryKey() })
       },
       onError: (error) => toast.error(`Failed to remove: ${error.message}`),
     })
@@ -64,15 +64,16 @@ export const useUpdateStatus = () => {
   )
 }
 
+
 export const useUpdateDocument = () => {
   const trpc = useTRPC()
   const queryClient = useQueryClient()
-
   return useMutation(
     trpc.documents.update.mutationOptions({
       onSuccess: (_, variables) => {
         queryClient.invalidateQueries({ queryKey: trpc.documents.getOne.queryKey({ id: variables.id }) })
         queryClient.invalidateQueries({ queryKey: trpc.documents.getMany.queryKey() })
+        queryClient.invalidateQueries({ queryKey: trpc.documents.getTotalsByCurrency.queryKey() })
       },
       onError: (error) => toast.error(`Failed to update: ${error.message}`),
     })
@@ -82,15 +83,35 @@ export const useUpdateDocument = () => {
 export const useReprocessDocument = () => {
   const trpc = useTRPC()
   const queryClient = useQueryClient()
-
   return useMutation(
     trpc.documents.reprocess.mutationOptions({
       onSuccess: (_, variables) => {
         toast.success('Document queued for reprocessing')
         queryClient.invalidateQueries({ queryKey: trpc.documents.getOne.queryKey({ id: variables.id }) })
         queryClient.invalidateQueries({ queryKey: trpc.documents.getMany.queryKey() })
+        queryClient.invalidateQueries({ queryKey: trpc.documents.getTotalsByCurrency.queryKey() })
       },
       onError: (error) => toast.error(`Failed to reprocess: ${error.message}`),
+    })
+  )
+}
+
+export const useCurrencySummary = () => {
+  const trpc = useTRPC()
+  return useQuery(trpc.documents.getTotalsByCurrency.queryOptions())
+}
+
+export const useReprocessPending = () => {
+  const trpc = useTRPC()
+  const queryClient = useQueryClient()
+
+  return useMutation(
+    trpc.documents.reprocessPending.mutationOptions({
+      onSuccess: (result) => {
+        toast.success(`Queued ${result.count} document${result.count !== 1 ? 's' : ''} for reprocessing`)
+        queryClient.invalidateQueries({ queryKey: trpc.documents.getMany.queryKey() })
+      },
+      onError: (error) => toast.error(`Failed: ${error.message}`),
     })
   )
 }

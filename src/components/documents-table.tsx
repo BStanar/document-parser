@@ -1,20 +1,11 @@
 "use client";
 
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from "@/components/ui/table";
-import {
-  FileTextIcon,
-  ImageIcon,
-  FileSpreadsheetIcon,
-  FileIcon,
-} from "lucide-react";
-import { useDocuments } from "@/features/documents/hooks/use-documents";
+import { FileTextIcon, ImageIcon, FileSpreadsheetIcon, FileIcon } from "lucide-react";
+import { useDocuments, useReprocessPending } from "@/features/documents/hooks/use-documents";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 const formatIcon = {
@@ -33,70 +24,71 @@ const statusStyle = {
 
 export const DocumentsTable = () => {
   const { data: documents = [], isLoading, error } = useDocuments();
+  const { mutate: reprocessPending, isPending: isReprocessing } = useReprocessPending();
 
   if (isLoading) {
-    return (
-      <div className="text-center py-10 text-muted-foreground text-sm">
-        Loading documents...
-      </div>
-    );
+    return <div className="text-center py-10 text-muted-foreground text-sm">Loading documents...</div>
   }
 
   if (error) {
-    return (
-      <div className="text-center py-10 text-destructive text-sm">
-        Failed to load documents.
-      </div>
-    );
+    return <div className="text-center py-10 text-destructive text-sm">Failed to load documents.</div>
   }
 
   if (documents.length === 0) {
-    return (
-      <div className="text-center py-10 text-muted-foreground text-sm">
-        No documents uploaded yet.
-      </div>
-    );
+    return <div className="text-center py-10 text-muted-foreground text-sm">No documents uploaded yet.</div>
   }
 
+  const pendingCount = documents.filter((document) => document.status === 'UPLOADED').length
+
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>File</TableHead>
-          <TableHead>Format</TableHead>
-          <TableHead>Type</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead>Uploaded</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {documents.map((doc) => (
-          <TableRow key={doc.id}>
-            <TableCell className="font-medium">
-              <Link href={`/documents/${doc.id}`} className="hover:underline">
-                {doc.filename}
-              </Link>
-            </TableCell>
-            <TableCell>
-              <span className="flex items-center gap-1 text-muted-foreground">
-                {formatIcon[doc.format]}
-                {doc.format}
-              </span>
-            </TableCell>
-            <TableCell>{doc.type ?? "-"}</TableCell>
-            <TableCell>
-              <span
-                className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${statusStyle[doc.status]}`}
-              >
-                {doc.status.replace("_", " ")}
-              </span>
-            </TableCell>
-            <TableCell className="text-muted-foreground text-sm">
-              {new Date(doc.createdAt).toLocaleDateString()}
-            </TableCell>
+    <div className="space-y-4">
+      {pendingCount > 0 && (
+        <Button
+          size="sm"
+          variant="outline"
+          disabled={isReprocessing}
+          onClick={() => reprocessPending()}
+        >
+          {isReprocessing ? 'Queuing...' : `Reprocess ${pendingCount} pending`}
+        </Button>
+      )}
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>File</TableHead>
+            <TableHead>Format</TableHead>
+            <TableHead>Type</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Uploaded</TableHead>
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHeader>
+        <TableBody>
+          {documents.map((document) => (
+            <TableRow key={document.id}>
+              <TableCell className="font-medium">
+                <Link href={`/documents/${document.id}`} className="hover:underline">
+                  {document.filename}
+                </Link>
+              </TableCell>
+              <TableCell>
+                <span className="flex items-center gap-1 text-muted-foreground">
+                  {formatIcon[document.format]}
+                  {document.format}
+                </span>
+              </TableCell>
+              <TableCell>{document.type ?? "-"}</TableCell>
+              <TableCell>
+                <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${statusStyle[document.status]}`}>
+                  {document.status.replace("_", " ")}
+                </span>
+              </TableCell>
+              <TableCell className="text-muted-foreground text-sm">
+                {new Date(document.createdAt).toLocaleDateString()}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
   );
 };
