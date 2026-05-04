@@ -38,7 +38,7 @@ file: <binary>
 **Input:**
 ```json
 {
-  "search": "",
+  "search": ""
 }
 ```
 
@@ -151,7 +151,16 @@ Document processing is handled asynchronously via Inngest.
 
 **Pipeline steps:**
 1. `fetch-document` - loads document and file data from DB
-2. `extract-text` - converts file to raw text
-3. `parse-structured-fields` - runs format-specific extractor
+2. `extract-text` - converts file to raw text (empty string for IMAGE format)
+3. `parse-structured-fields` - runs format-specific extractor:
+   - CSV: PapaParse row mapping
+   - TXT: regex pattern matching
+   - IMAGE: Azure Document Intelligence prebuilt invoice model
 4. `save-to-db` - persists extracted fields and line items
-5. `run-validation` - runs validation engine and saves issues 
+5. `run-validation` - runs validation engine and saves issues
+
+**Image extraction notes:**
+- Uses Azure Document Intelligence `prebuilt-invoice` model
+- Supports multi-language invoices (English, French, Arabic, etc.)
+- Handles complex layouts, tables, and various invoice formats
+- Requires `AZURE_DOCUMENT_INTELLIGENCE_KEY` and `AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT` env vars

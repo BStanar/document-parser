@@ -41,12 +41,19 @@ export const processDocument = inngest.createFunction(
         case "TXT":
         case "CSV":
           return buffer.toString("utf-8");
+        case "IMAGE":
+          return ""; // extraction handled in parse-structured-fields
         default:
           throw new Error(`Format ${document.format} not yet supported`);
       }
     });
 
     const extracted = await step.run("parse-structured-fields", async () => {
+      if (document.format === "IMAGE") {
+        const { extractImage } = await import("../lib/extractor/extract-image");
+        const buffer = Buffer.from(document.fileData!.data, "base64");
+        return extractImage(buffer);
+      }
       return extractFields(rawText, document.format as "TXT" | "CSV");
     });
 
