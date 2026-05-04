@@ -172,4 +172,23 @@ export const documentsRouter = createTRPCRouter({
       total: data.total,
     }))
   }),
+
+  reprocessPending: baseProcedure
+  .mutation(async () => {
+    const pendingDocuments = await prisma.document.findMany({
+      where: { status: 'UPLOADED' },
+      select: { id: true },
+    })
+
+    await Promise.all(
+      pendingDocuments.map((document) =>
+        inngest.send({
+          name: 'document/uploaded',
+          data: { documentId: document.id },
+        })
+      )
+    )
+
+    return { count: pendingDocuments.length }
+  }),
 });

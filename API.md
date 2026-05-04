@@ -39,7 +39,6 @@ file: <binary>
 ```json
 {
   "search": "",
-  "status": ""
 }
 ```
 
@@ -111,7 +110,7 @@ Resets status to `UPLOADED` and re-triggers the full extraction and validation p
 ---
 
 ### Get Currency Summary
-**Procedure:** `documents.getSummaryByCurrency` - query
+**Procedure:** `documents.getTotalsByCurrency` - query
 
 Returns total amounts grouped by currency across all documents.
 

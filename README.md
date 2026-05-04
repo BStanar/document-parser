@@ -75,7 +75,7 @@ Document processing is split into two phases:
 The user uploads a file via the UI. The file is validated (MIME type, extension, size), stored as base64 in a separate `FileData` table, and an Inngest event `document/uploaded` is fired.
 
 **2. Background Processing (Inngest)**
-The Inngest function runs four sequential steps:
+The Inngest function runs five sequential steps:
 - `fetch-document` - loads the document and file data from the database
 - `extract-text` - converts the file to raw text (UTF-8 for TXT/CSV)
 - `parse-structured-fields` - runs format-specific extractors to pull out document type, supplier name, document number, dates, currency, line items, and totals
