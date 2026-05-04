@@ -105,11 +105,12 @@ The Inngest function runs five sequential steps:
 
 ### Extraction
 
-Three format-specific extractors:
+Four format-specific extractors:
 
 - **CSV** - parsed with PapaParse, line items mapped from rows, subtotal computed from line item totals
 - **TXT** - pattern-based extraction using labeled field patterns (e.g. `Total: 758 EUR`), with a shared `parseAmount` utility handling various number formats including European decimal notation
-- **IMAGE** - uses Azure Document Intelligence prebuilt invoice model, which handles multi-language invoices, complex table layouts, and various invoice formats. Returns structured fields directly without regex parsing.
+- **PDF** - text extracted via pdf2json, normalized with label-aware line breaks, then parsed with the TXT extractor
+- **IMAGE** - uses Azure Document Intelligence prebuilt invoice model, which handles multi-language invoices, complex table layouts, and various invoice formats. Azure OCR text is also passed through the TXT extractor as a fallback to catch fields the model misses (e.g. unlabeled supplier names)
 
 ### Messy Input Handling
 
@@ -165,8 +166,8 @@ Each document has a detail page showing:
 - **PDF support** - integrate pdf-parse for text-based PDFs and Azure Document Intelligence for scanned PDFs
 - **Per-line-item VAT awareness** - update the validation engine to account for tax being included in line item totals
 - **Line item editing** - the edit dialog currently only edits document-level fields. Editing individual line items would improve the review workflow
-- **Confidence scores** - show how confident the extractor was for each field, especially for OCR results
 - **Unit tests** - validation engine and extractors are pure functions, straightforward to test with Jest
 - **Audit trail** - track who changed what and when on each document
 - **Bulk actions** - approve or reject multiple documents at once from the dashboard
 - **Export** - export validated documents as JSON or CSV for downstream systems
+- **Scanned PDF support** - route scanned PDFs through Azure Document Intelligence instead of pdf2json

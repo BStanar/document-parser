@@ -3,6 +3,7 @@ import {
   AzureKeyCredential,
 } from "@azure/ai-form-recognizer";
 import { ExtractedDocument } from "../extract-fields";
+import { extractTxt } from "./extract-txt";
 
 export async function extractImage(buffer: Buffer): Promise<ExtractedDocument> {
   const endpoint = process.env.AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT;
@@ -98,8 +99,8 @@ export async function extractImage(buffer: Buffer): Promise<ExtractedDocument> {
       ? (invoice["InvoiceTotal"].value as any)?.amount
       : null);
 
-  return {
-    type: "INVOICE",
+  const azureResult = {
+    type: "INVOICE" as const,
     supplierName: getString("VendorName"),
     documentNumber: getString("InvoiceId"),
     issueDate: getDate("InvoiceDate"),
@@ -109,6 +110,28 @@ export async function extractImage(buffer: Buffer): Promise<ExtractedDocument> {
     tax,
     total,
     lineItems,
+  };
+  // get raw OCR text from Azure
+  const rawText = result.content ?? "";
+
+  // run txt extractor on the OCR text as fallback
+  const txtResult = extractTxt(rawText);
+
+  // merge: prefer Azure values, fall back to txt extractor
+  return {
+    type: azureResult.type ?? txtResult.type,
+    supplierName: azureResult.supplierName ?? txtResult.supplierName,
+    documentNumber: azureResult.documentNumber ?? txtResult.documentNumber,
+    issueDate: azureResult.issueDate ?? txtResult.issueDate,
+    dueDate: azureResult.dueDate ?? txtResult.dueDate,
+    currency: azureResult.currency ?? txtResult.currency,
+    subtotal: azureResult.subtotal ?? txtResult.subtotal,
+    tax: azureResult.tax ?? txtResult.tax,
+    total: azureResult.total ?? txtResult.total,
+    lineItems:
+      azureResult.lineItems.length > 0
+        ? azureResult.lineItems
+        : txtResult.lineItems,
   };
 }
 
